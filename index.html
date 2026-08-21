@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Campus Emergency Command Center</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #0b1120;
+            color: #e5e7eb;
+            min-height: 100vh;
+        }
+
+        /* HEADER */
+
+        header {
+            height: 70px;
+            background: #111827;
+            border-bottom: 1px solid #263244;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            background: #dc2626;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        .logo h1 {
+            font-size: 20px;
+        }
+
+        .logo p {
+            color: #9ca3af;
+            font-size: 12px;
+            margin-top: 3px;
+        }
+
+        .system-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #4ade80;
+            font-size: 14px;
+        }
+
+        .status-dot {
+            width: 9px;
+            height: 9px;
+            background: #22c55e;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #22c55e;
+        }
+
+        /* MAIN */
+
+        main {
+            padding: 25px 30px;
+        }
+
+        /* STAT CARDS */
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 22px;
+        }
+
+        .stat-card {
+            background: #111827;
+            border: 1px solid #263244;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .stat-title {
+            color: #9ca3af;
+            font-size: 13px;
+        }
+
+        .stat-number {
+            font-size: 30px;
+            font-weight: bold;
+            margin-top: 8px;
+        }
+
+        .red {
+            color: #f87171;
+        }
+
+        .green {
+            color: #4ade80;
+        }
+
+        .yellow {
+            color: #facc15;
+        }
+
+        .blue {
+            color: #60a5fa;
+        }
+
+        /* MAIN GRID */
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1.7fr 1fr;
+            gap: 20px;
+        }
+
+        .panel {
+            background: #111827;
+            border: 1px solid #263244;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .panel-header h2 {
+            font-size: 17px;
+        }
+
+        .panel-header span {
+            color: #9ca3af;
+            font-size: 12px;
+        }
+
+        /* CAMPUS MAP */
+
+        .map {
+            height: 390px;
+            background: #0f172a;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #263244;
+        }
+
+        .road {
+            position: absolute;
+            background: #334155;
+        }
+
+        .road.horizontal {
+            height: 20px;
+            width: 100%;
+            top: 48%;
+            left: 0;
+        }
+
+        .road.vertical {
+            width: 20px;
+            height: 100%;
+            left: 48%;
+            top: 0;
+        }
+
+        .building {
+            position: absolute;
+            background: #1e293b;
+            border: 1px solid #475569;
+            border-radius: 6px;
+            padding: 12px;
+            font-size: 11px;
+            text-align: center;
+        }
+
+        .block-a {
+            top: 25px;
+            left: 45px;
+            width: 130px;
+            height: 75px;
+        }
+
+        .library {
+            top: 25px;
+            right: 50px;
+            width: 130px;
+            height: 75px;
+        }
+
+        .block-b {
+            bottom: 35px;
+            left: 42px;
+            width: 145px;
+            height: 85px;
+            border-color: #ef4444;
+            background: #35151a;
+        }
+
+        .health {
+            bottom: 35px;
+            right: 40px;
+            width: 145px;
+            height: 85px;
+        }
+
+        .gate {
+            position: absolute;
+            padding: 6px 10px;
+            background: #14532d;
+            border-radius: 5px;
+            color: #86efac;
+            font-size: 10px;
+        }
+
+        .north-gate {
+            top: 8px;
+            left: 45%;
+        }
+
+        .main-gate {
+            bottom: 5px;
+            left: 46%;
+        }
+
+        .fire {
+            position: absolute;
+            top: 54%;
+            left: 34%;
+            font-size: 30px;
+            animation: pulse 1.2s infinite;
+        }
+
+        @keyframes pulse {
+            50% {
+                transform: scale(1.2);
+            }
+        }
+
+        .danger-zone {
+            position: absolute;
+            bottom: 5px;
+            left: 20px;
+            width: 190px;
+            height: 145px;
+            border: 2px dashed #ef4444;
+            border-radius: 50%;
+            opacity: 0.7;
+        }
+
+        .route {
+            position: absolute;
+            width: 190px;
+            height: 4px;
+            background: #22c55e;
+            transform: rotate(-25deg);
+            bottom: 145px;
+            right: 110px;
+            box-shadow: 0 0 8px #22c55e;
+        }
+
+        .ambulance {
+            position: absolute;
+            bottom: 105px;
+            right: 170px;
+            font-size: 25px;
+        }
+
+        /* INCIDENT */
+
+        .incident {
+            border: 1px solid #7f1d1d;
+            background: #1f1114;
+            border-radius: 10px;
+            padding: 17px;
+            margin-bottom: 18px;
+        }
+
+        .incident-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .incident-title {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .critical {
+            background: #7f1d1d;
+            color: #fecaca;
+            padding: 5px 9px;
+            border-radius: 5px;
+            font-size: 10px;
+        }
+
+        .incident p {
+            color: #9ca3af;
+            font-size: 12px;
+            margin-top: 8px;
+            line-height: 1.5;
+        }
+
+        .incident-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .info-box {
+            background: #0f172a;
+            padding: 10px;
+            border-radius: 6px;
+        }
+
+        .info-box small {
+            color: #64748b;
+        }
+
+        .info-box strong {
+            display: block;
+            margin-top: 4px;
+            font-size: 13px;
+        }
+
+        /* AGENTS */
+
+        .agent {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 11px;
+            margin-bottom: 8px;
+            background: #0f172a;
+            border-radius: 7px;
+        }
+
+        .agent-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .agent-icon {
+            width: 32px;
+            height: 32px;
+            background: #1e293b;
+            border-radius: 7px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .agent-name {
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .agent-action {
+            font-size: 10px;
+            color: #94a3b8;
+            margin-top: 3px;
+        }
+
+        .working {
+            color: #4ade80;
+            font-size: 10px;
+        }
+
+        /* BOTTOM */
+
+        .bottom-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .resource {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid #1f2937;
+            font-size: 12px;
+        }
+
+        .available {
+            color: #4ade80;
+        }
+
+        .assigned {
+            color: #facc15;
+        }
+
+        /* APPROVAL */
+
+        .approval {
+            border: 1px solid #854d0e;
+            background: #211b0c;
+        }
+
+        .approval p {
+            color: #cbd5e1;
+            font-size: 12px;
+            margin: 10px 0;
+            line-height: 1.5;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            border: none;
+            padding: 9px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 11px;
+        }
+
+        .approve {
+            background: #16a34a;
+            color: white;
+        }
+
+        .reject {
+            background: #374151;
+            color: #e5e7eb;
+        }
+
+        button:hover {
+            opacity: 0.85;
+        }
+
+        /* RESPONSIVE */
+
+        @media(max-width: 900px) {
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .main-grid,
+            .bottom-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media(max-width: 600px) {
+            header {
+                padding: 0 15px;
+            }
+
+            main {
+                padding: 15px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .logo h1 {
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+
+        <div class="logo-icon">
+            🚨
+        </div>
+
+        <div>
+            <h1>Campus Emergency Command Center</h1>
+            <p>AI Multi-Agent Response & Resource Coordination</p>
+        </div>
+
+    </div>
+
+    <div class="system-status">
+        <span class="status-dot"></span>
+        SYSTEM LIVE
+    </div>
+
+</header>
+
+
+<main>
+
+    <!-- STATISTICS -->
+
+    <section class="stats">
+
+        <div class="stat-card">
+            <div class="stat-title">ACTIVE INCIDENTS</div>
+            <div class="stat-number red">03</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-title">CRITICAL INCIDENTS</div>
+            <div class="stat-number red">01</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-title">AVAILABLE RESOURCES</div>
+            <div class="stat-number green">18</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-title">RESPONSE TEAMS</div>
+            <div class="stat-number blue">07</div>
+        </div>
+
+    </section>
+
+
+    <!-- MAP + INCIDENT -->
+
+    <section class="main-grid">
+
+        <!-- CAMPUS MAP -->
+
+        <div class="panel">
+
+            <div class="panel-header">
+                <h2>🗺️ Live Campus Map</h2>
+                <span>Real-time simulation</span>
+            </div>
+
+            <div class="map">
+
+                <div class="road horizontal"></div>
+                <div class="road vertical"></div>
+
+                <div class="building block-a">
+                    BLOCK A
+                </div>
+
+                <div class="building library">
+                    LIBRARY
+                </div>
+
+                <div class="building block-b">
+                    🔥 BLOCK B<br>
+                    Chemistry Lab
+                </div>
+
+                <div class="building health">
+                    🏥 HEALTH CENTER
+                </div>
+
+                <div class="gate north-gate">
+                    🟢 NORTH GATE
+                </div>
+
+                <div class="gate main-gate">
+                    🟢 MAIN GATE
+                </div>
+
+                <div class="danger-zone"></div>
+
+                <div class="fire">
+                    🔥
+                </div>
+
+                <div class="route"></div>
+
+                <div class="ambulance">
+                    🚑
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- INCIDENT -->
+
+        <div class="panel">
+
+            <div class="panel-header">
+                <h2>🚨 Active Emergency</h2>
+                <span>#INC-1024</span>
+            </div>
+
+            <div class="incident">
+
+                <div class="incident-top">
+
+                    <div class="incident-title">
+                        🔥 Fire Emergency
+                    </div>
+
+                    <div class="critical">
+                        CRITICAL
+                    </div>
+
+                </div>
+
+                <p>
+                    Fire reported in the Chemistry Laboratory.
+                    Smoke spreading through Block B.
+                </p>
+
+                <div class="incident-info">
+
+                    <div class="info-box">
+                        <small>LOCATION</small>
+                        <strong>Block B</strong>
+                    </div>
+
+                    <div class="info-box">
+                        <small>SEVERITY</small>
+                        <strong class="red">Critical</strong>
+                    </div>
+
+                    <div class="info-box">
+                        <small>AFFECTED ZONE</small>
+                        <strong>Block B</strong>
+                    </div>
+
+                    <div class="info-box">
+                        <small>STATUS</small>
+                        <strong class="yellow">Responding</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="panel-header">
+                <h2>🤖 AI Agent Activity</h2>
+            </div>
+
+
+            <div class="agent">
+
+                <div class="agent-left">
+
+                    <div class="agent-icon">
+                        🔍
+                    </div>
+
+                    <div>
+                        <div class="agent-name">
+                            Incident Analysis Agent
+                        </div>
+
+                        <div class="agent-action">
+                            Fire detected • Critical severity
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="working">✓ DONE</div>
+
+            </div>
+
+
+            <div class="agent">
+
+                <div class="agent-left">
+
+                    <div class="agent-icon">
+                        🛡️
+                    </div>
+
+                    <div>
+                        <div class="agent-name">
+                            Security Agent
+                        </div>
+
+                        <div class="agent-action">
+                            4 officers assigned
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="working">✓ DONE</div>
+
+            </div>
+
+
+            <div class="agent">
+
+                <div class="agent-left">
+
+                    <div class="agent-icon">
+                        🚑
+                    </div>
+
+                    <div>
+                        <div class="agent-name">
+                            Medical Agent
+                        </div>
+
+                        <div class="agent-action">
+                            Ambulance A01 dispatched
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="working">✓ DONE</div>
+
+            </div>
+
+
+            <div class="agent">
+
+                <div class="agent-left">
+
+                    <div class="agent-icon">
+                        🗺️
+                    </div>
+
+                    <div>
+                        <div class="agent-name">
+                            Route Agent
+                        </div>
+
+                        <div class="agent-action">
+                            Safe route calculated
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="working">✓ DONE</div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- BOTTOM -->
+
+    <section class="bottom-grid">
+
+
+        <!-- RESOURCES -->
+
+        <div class="panel">
+
+            <div class="panel-header">
+                <h2>🚑 Resources</h2>
+            </div>
+
+            <div class="resource">
+                <span>Ambulance A01</span>
+                <span class="assigned">Assigned</span>
+            </div>
+
+            <div class="resource">
+                <span>Ambulance A02</span>
+                <span class="available">Available</span>
+            </div>
+
+            <div class="resource">
+                <span>Security Team S01</span>
+                <span class="assigned">Assigned</span>
+            </div>
+
+            <div class="resource">
+                <span>Emergency Vehicle E01</span>
+                <span class="available">Available</span>
+            </div>
+
+        </div>
+
+
+        <!-- TIMELINE -->
+
+        <div class="panel">
+
+            <div class="panel-header">
+                <h2>📜 Incident Timeline</h2>
+            </div>
+
+            <div class="resource">
+                <span>09:30 — Emergency reported</span>
+            </div>
+
+            <div class="resource">
+                <span>09:31 — AI analyzed incident</span>
+            </div>
+
+            <div class="resource">
+                <span>09:32 — Medical team assigned</span>
+            </div>
+
+            <div class="resource">
+                <span>09:33 — Safe route generated</span>
+            </div>
+
+        </div>
+
+
+        <!-- APPROVAL -->
+
+        <div class="panel approval">
+
+            <div class="panel-header">
+                <h2>⚠️ Human Approval</h2>
+            </div>
+
+            <strong>Evacuate Block B</strong>
+
+            <p>
+                AI recommends immediate evacuation because
+                the incident severity is classified as critical.
+            </p>
+
+            <div class="buttons">
+
+                <button class="approve" onclick="approveAction()">
+                    ✓ APPROVE
+                </button>
+
+                <button class="reject" onclick="rejectAction()">
+                    ✕ REJECT
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<script>
+
+function approveAction() {
+
+    alert(
+        "✅ Emergency action approved.\n\n" +
+        "Block B evacuation has been authorized."
+    );
+
+}
+
+function rejectAction() {
+
+    alert(
+        "❌ Emergency action rejected.\n\n" +
+        "Human operator has rejected the AI recommendation."
+    );
+
+}
+
+</script>
+
+</body>
+</html>
