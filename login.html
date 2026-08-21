@@ -1,0 +1,2555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>CampusEmergencyAI | Authentication</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Poppins", sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    color: white;
+    background: #02070d;
+}
+
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
+.background {
+    position: fixed;
+    inset: 0;
+    z-index: -10;
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            circle at 15% 20%,
+            rgba(0,190,255,.15),
+            transparent 35%
+        ),
+        radial-gradient(
+            circle at 85% 80%,
+            rgba(255,30,70,.10),
+            transparent 35%
+        ),
+        linear-gradient(
+            135deg,
+            #02070d,
+            #071522,
+            #02070d
+        );
+}
+
+.background::before {
+    content: "";
+    position: absolute;
+    inset: -100px;
+
+    background-image:
+        linear-gradient(
+            rgba(0,200,255,.035) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(0,200,255,.035) 1px,
+            transparent 1px
+        );
+
+    background-size: 55px 55px;
+
+    animation: gridMove 18s linear infinite;
+}
+
+@keyframes gridMove {
+
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(55px);
+    }
+
+}
+
+.orb {
+    position: absolute;
+
+    border-radius: 50%;
+
+    filter: blur(10px);
+
+    opacity: .2;
+
+    animation: floating 8s ease-in-out infinite;
+}
+
+.orb1 {
+    width: 350px;
+    height: 350px;
+
+    background: #00bfff;
+
+    left: -130px;
+    top: -130px;
+}
+
+.orb2 {
+    width: 300px;
+    height: 300px;
+
+    background: #ff1744;
+
+    right: -100px;
+    bottom: -120px;
+
+    animation-delay: 2s;
+}
+
+.orb3 {
+    width: 160px;
+    height: 160px;
+
+    background: #0066ff;
+
+    right: 20%;
+    top: 10%;
+
+    animation-delay: 4s;
+}
+
+@keyframes floating {
+
+    0%,100% {
+        transform: translateY(0) scale(1);
+    }
+
+    50% {
+        transform: translateY(-25px) scale(1.08);
+    }
+
+}
+
+
+/* =========================================================
+   PARTICLES
+========================================================= */
+
+.particle {
+    position: absolute;
+
+    width: 3px;
+    height: 3px;
+
+    border-radius: 50%;
+
+    background: #00c8ff;
+
+    animation: particleMove 7s linear infinite;
+}
+
+.particle:nth-child(1) {
+    left: 10%;
+    top: 80%;
+}
+
+.particle:nth-child(2) {
+    left: 25%;
+    top: 25%;
+    animation-delay: 2s;
+}
+
+.particle:nth-child(3) {
+    left: 70%;
+    top: 80%;
+    animation-delay: 3s;
+}
+
+.particle:nth-child(4) {
+    left: 85%;
+    top: 30%;
+    animation-delay: 1s;
+}
+
+.particle:nth-child(5) {
+    left: 55%;
+    top: 90%;
+    animation-delay: 4s;
+}
+
+@keyframes particleMove {
+
+    0% {
+        transform: translateY(0);
+        opacity: 0;
+    }
+
+    30% {
+        opacity: .6;
+    }
+
+    100% {
+        transform: translateY(-200px);
+        opacity: 0;
+    }
+
+}
+
+
+/* =========================================================
+   MAIN CARD
+========================================================= */
+
+.container {
+    min-height: 100vh;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 25px;
+}
+
+.card {
+    width: 950px;
+    min-height: 570px;
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    overflow: hidden;
+
+    border-radius: 26px;
+
+    background: rgba(5,16,29,.93);
+
+    border: 1px solid rgba(0,200,255,.18);
+
+    backdrop-filter: blur(20px);
+
+    box-shadow:
+        0 30px 80px rgba(0,0,0,.55),
+        0 0 50px rgba(0,180,255,.08);
+
+    animation: cardAppear .9s ease;
+}
+
+@keyframes cardAppear {
+
+    from {
+        opacity: 0;
+        transform: translateY(35px) scale(.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+}
+
+
+/* =========================================================
+   LEFT PANEL
+========================================================= */
+
+.left {
+    padding: 60px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(0,160,255,.08),
+            rgba(255,30,60,.025)
+        );
+
+    border-right:
+        1px solid rgba(255,255,255,.06);
+}
+
+.logo {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    font-size: 20px;
+
+    font-weight: 600;
+
+    margin-bottom: 45px;
+}
+
+.logo-icon {
+    width: 50px;
+    height: 50px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 14px;
+
+    background:
+        rgba(255,40,70,.10);
+
+    border:
+        1px solid rgba(255,50,80,.35);
+
+    font-size: 24px;
+
+    animation: emergencyPulse 2s infinite;
+}
+
+.logo span {
+    color: #00c8ff;
+}
+
+@keyframes emergencyPulse {
+
+    0%,100% {
+        box-shadow:
+            0 0 10px rgba(255,40,70,.15);
+    }
+
+    50% {
+        box-shadow:
+            0 0 35px rgba(255,40,70,.45);
+    }
+
+}
+
+.left h1 {
+    font-size: 38px;
+
+    line-height: 1.2;
+
+    margin-bottom: 20px;
+}
+
+.left h1 span {
+    color: #00c8ff;
+}
+
+.description {
+    max-width: 400px;
+
+    color: #91a4b8;
+
+    font-size: 14px;
+
+    line-height: 1.8;
+}
+
+.status {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin-top: 35px;
+
+    color: #59ffae;
+
+    font-size: 10px;
+
+    letter-spacing: 1px;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+
+    border-radius: 50%;
+
+    background: #00ff88;
+
+    box-shadow:
+        0 0 12px #00ff88;
+
+    animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+
+    50% {
+        opacity: .3;
+    }
+
+}
+
+
+/* =========================================================
+   RIGHT
+========================================================= */
+
+.right {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 50px;
+}
+
+.screen {
+    width: 100%;
+
+    max-width: 350px;
+
+    display: none;
+
+    animation: screenIn .4s ease;
+}
+
+.screen.active {
+    display: block;
+}
+
+@keyframes screenIn {
+
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+}
+
+
+/* =========================================================
+   WELCOME
+========================================================= */
+
+.welcome {
+    text-align: center;
+}
+
+.welcome-icon {
+    width: 75px;
+    height: 75px;
+
+    margin: 0 auto 20px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 20px;
+
+    font-size: 35px;
+
+    background:
+        rgba(0,200,255,.07);
+
+    border:
+        1px solid rgba(0,200,255,.25);
+
+    animation: iconFloat 3s ease-in-out infinite;
+}
+
+@keyframes iconFloat {
+
+    0%,100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-7px);
+    }
+
+}
+
+.welcome h2 {
+    font-size: 29px;
+
+    margin-bottom: 8px;
+}
+
+.welcome p {
+    color: #7f91a5;
+
+    font-size: 12px;
+
+    line-height: 1.6;
+
+    margin-bottom: 30px;
+}
+
+
+/* =========================================================
+   AUTH OPTIONS
+========================================================= */
+
+.auth-option {
+    width: 100%;
+
+    padding: 18px;
+
+    margin-bottom: 15px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    text-align: left;
+
+    border-radius: 13px;
+
+    border:
+        1px solid rgba(255,255,255,.09);
+
+    background:
+        rgba(255,255,255,.035);
+
+    color: white;
+
+    cursor: pointer;
+
+    transition: .3s;
+
+    font-family: inherit;
+}
+
+.auth-option:hover {
+    transform: translateY(-3px);
+
+    border-color:
+        rgba(0,200,255,.45);
+
+    background:
+        rgba(0,200,255,.07);
+
+    box-shadow:
+        0 10px 30px rgba(0,160,255,.12);
+}
+
+.option-icon {
+    width: 45px;
+    height: 45px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 11px;
+
+    background:
+        rgba(0,200,255,.08);
+
+    font-size: 21px;
+}
+
+.option-text strong {
+    display: block;
+
+    font-size: 14px;
+}
+
+.option-text small {
+    display: block;
+
+    margin-top: 3px;
+
+    color: #71859a;
+
+    font-size: 10px;
+}
+
+
+/* =========================================================
+   HEADINGS
+========================================================= */
+
+.screen h2 {
+    font-size: 28px;
+
+    margin-bottom: 7px;
+}
+
+.subtitle {
+    color: #7f91a5;
+
+    font-size: 12px;
+
+    line-height: 1.6;
+
+    margin-bottom: 27px;
+}
+
+
+/* =========================================================
+   INPUT
+========================================================= */
+
+.input-group {
+    margin-bottom: 17px;
+}
+
+.input-group label {
+    display: block;
+
+    color: #aab8c7;
+
+    font-size: 12px;
+
+    margin-bottom: 7px;
+}
+
+.input {
+    width: 100%;
+
+    height: 50px;
+
+    padding: 0 15px;
+
+    border-radius: 10px;
+
+    outline: none;
+
+    border:
+        1px solid rgba(255,255,255,.1);
+
+    background:
+        rgba(255,255,255,.035);
+
+    color: white;
+
+    font-family: inherit;
+
+    transition: .3s;
+}
+
+.input:focus {
+    border-color: #00c8ff;
+
+    box-shadow:
+        0 0 20px rgba(0,200,255,.12);
+}
+
+.input::placeholder {
+    color: #536579;
+}
+
+
+/* =========================================================
+   BUTTON
+========================================================= */
+
+.primary-btn {
+    width: 100%;
+
+    height: 50px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #0077ff,
+            #00c8ff
+        );
+
+    color: white;
+
+    font-family: inherit;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: .3s;
+}
+
+.primary-btn:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 10px 30px rgba(0,160,255,.25);
+}
+
+
+/* =========================================================
+   LINKS
+========================================================= */
+
+.links {
+    margin-top: 20px;
+
+    text-align: center;
+
+    color: #687b8f;
+
+    font-size: 11px;
+}
+
+.links a {
+    color: #00c8ff;
+
+    cursor: pointer;
+
+    text-decoration: none;
+}
+
+.links a:hover {
+    color: white;
+}
+
+
+/* =========================================================
+   OTP
+========================================================= */
+
+.otp-box {
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 7px;
+
+    margin-bottom: 20px;
+}
+
+.otp-input {
+    width: 48px;
+    height: 52px;
+
+    text-align: center;
+
+    font-size: 20px;
+
+    color: white;
+
+    border-radius: 9px;
+
+    outline: none;
+
+    border:
+        1px solid rgba(255,255,255,.1);
+
+    background:
+        rgba(255,255,255,.035);
+}
+
+.otp-input:focus {
+    border-color: #00c8ff;
+
+    box-shadow:
+        0 0 15px rgba(0,200,255,.15);
+}
+
+
+/* =========================================================
+   OTP MESSAGE
+========================================================= */
+
+.otp-message {
+    padding: 12px;
+
+    margin-bottom: 18px;
+
+    border-radius: 8px;
+
+    background:
+        rgba(0,200,255,.05);
+
+    border:
+        1px solid rgba(0,200,255,.12);
+
+    color: #8da4b8;
+
+    font-size: 10px;
+
+    line-height: 1.5;
+}
+
+.otp-message strong {
+    color: #00c8ff;
+}
+
+
+/* =========================================================
+   MESSAGE
+========================================================= */
+
+.message {
+    display: none;
+
+    padding: 11px;
+
+    margin-bottom: 16px;
+
+    border-radius: 8px;
+
+    font-size: 10px;
+
+    line-height: 1.5;
+}
+
+.message.show {
+    display: block;
+}
+
+.message.error {
+    color: #ff7188;
+
+    background:
+        rgba(255,30,70,.07);
+
+    border:
+        1px solid rgba(255,30,70,.2);
+}
+
+.message.success {
+    color: #59ffae;
+
+    background:
+        rgba(0,255,140,.06);
+
+    border:
+        1px solid rgba(0,255,140,.2);
+}
+
+
+/* =========================================================
+   SUCCESS
+========================================================= */
+
+.success {
+    text-align: center;
+}
+
+.success-icon {
+    width: 70px;
+    height: 70px;
+
+    margin: 0 auto 18px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background:
+        rgba(0,255,140,.08);
+
+    border:
+        1px solid rgba(0,255,140,.3);
+
+    color: #00ff88;
+
+    font-size: 30px;
+
+    box-shadow:
+        0 0 30px rgba(0,255,140,.15);
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:800px) {
+
+    body {
+        overflow: auto;
+    }
+
+    .card {
+        width: 100%;
+
+        max-width: 480px;
+
+        grid-template-columns: 1fr;
+    }
+
+    .left {
+        padding: 35px;
+
+        text-align: center;
+
+        border-right: none;
+
+        border-bottom:
+            1px solid rgba(255,255,255,.06);
+    }
+
+    .logo {
+        justify-content: center;
+    }
+
+    .left h1 {
+        font-size: 30px;
+    }
+
+    .description {
+        margin: auto;
+    }
+
+    .status {
+        justify-content: center;
+    }
+
+    .right {
+        padding: 40px 30px;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     BACKGROUND
+========================================================= -->
+
+<div class="background">
+
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+
+</div>
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+<div class="container">
+
+<div class="card">
+
+
+<!-- =========================================================
+     LEFT
+========================================================= -->
+
+<div class="left">
+
+    <div class="logo">
+
+        <div class="logo-icon">
+            🚨
+        </div>
+
+        <div>
+            Campus<span>EmergencyAI</span>
+        </div>
+
+    </div>
+
+
+    <h1>
+
+        Smarter Response.<br>
+
+        <span>Safer Campus.</span>
+
+    </h1>
+
+
+    <p class="description">
+
+        An AI-powered multi-agent emergency response
+        system designed to detect incidents, coordinate
+        resources and support faster campus-wide response.
+
+    </p>
+
+
+    <div class="status">
+
+        <span class="status-dot"></span>
+
+        EMERGENCY RESPONSE SYSTEM ONLINE
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     RIGHT
+========================================================= -->
+
+<div class="right">
+
+
+<!-- =========================================================
+     WELCOME
+========================================================= -->
+
+<div class="screen active" id="welcomeScreen">
+
+    <div class="welcome">
+
+        <div class="welcome-icon">
+            🛡️
+        </div>
+
+        <h2>
+            Welcome
+        </h2>
+
+        <p>
+            Choose how you want to continue
+            with CampusEmergencyAI.
+        </p>
+
+
+        <button
+            class="auth-option"
+            onclick="showScreen('signinScreen')"
+        >
+
+            <div class="option-icon">
+                🔐
+            </div>
+
+            <div class="option-text">
+
+                <strong>
+                    Sign In
+                </strong>
+
+                <small>
+                    Already have an account
+                </small>
+
+            </div>
+
+        </button>
+
+
+        <button
+            class="auth-option"
+            onclick="showScreen('signupScreen')"
+        >
+
+            <div class="option-icon">
+                📝
+            </div>
+
+            <div class="option-text">
+
+                <strong>
+                    Sign Up
+                </strong>
+
+                <small>
+                    Create a new account
+                </small>
+
+            </div>
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     SIGN IN
+========================================================= -->
+
+<div class="screen" id="signinScreen">
+
+    <h2>
+        Welcome Back
+    </h2>
+
+    <p class="subtitle">
+
+        Sign in to access your
+        emergency response dashboard.
+
+    </p>
+
+
+    <div
+        class="message error"
+        id="signinError"
+    ></div>
+
+
+    <div
+        class="message success"
+        id="signinSuccess"
+    ></div>
+
+
+    <form id="signinForm">
+
+        <div class="input-group">
+
+            <label>
+                Email Address
+            </label>
+
+            <input
+                class="input"
+                type="email"
+                id="signinEmail"
+                placeholder="Enter your email"
+                required
+            >
+
+        </div>
+
+
+        <div class="input-group">
+
+            <label>
+                Password
+            </label>
+
+            <input
+                class="input"
+                type="password"
+                id="signinPassword"
+                placeholder="Enter your password"
+                required
+            >
+
+        </div>
+
+
+        <div
+            class="links"
+            style="text-align:right;margin:0 0 18px"
+        >
+
+            <a onclick="showScreen('forgotScreen')">
+
+                Forgot Password?
+
+            </a>
+
+        </div>
+
+
+        <button
+            class="primary-btn"
+            type="submit"
+        >
+
+            Sign In
+
+        </button>
+
+    </form>
+
+
+    <div class="links">
+
+        Don't have an account?
+
+        <a onclick="showScreen('signupScreen')">
+
+            Create Account
+
+        </a>
+
+    </div>
+
+
+    <div class="links">
+
+        <a onclick="showScreen('welcomeScreen')">
+
+            ← Back
+
+        </a>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     SIGN UP
+========================================================= -->
+
+<div class="screen" id="signupScreen">
+
+    <h2>
+        Create Account
+    </h2>
+
+    <p class="subtitle">
+
+        Enter your details to create your
+        CampusEmergencyAI account.
+
+    </p>
+
+
+    <div
+        class="message error"
+        id="signupError"
+    ></div>
+
+
+    <form id="signupForm">
+
+        <div class="input-group">
+
+            <label>
+                Full Name
+            </label>
+
+            <input
+                class="input"
+                type="text"
+                id="signupName"
+                placeholder="Enter your full name"
+                required
+            >
+
+        </div>
+
+
+        <div class="input-group">
+
+            <label>
+                Email Address
+            </label>
+
+            <input
+                class="input"
+                type="email"
+                id="signupEmail"
+                placeholder="Enter your email"
+                required
+            >
+
+        </div>
+
+
+        <button
+            class="primary-btn"
+            type="submit"
+        >
+
+            Send Verification OTP
+
+        </button>
+
+    </form>
+
+
+    <div class="links">
+
+        Already have an account?
+
+        <a onclick="showScreen('signinScreen')">
+
+            Sign In
+
+        </a>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     SIGNUP OTP
+========================================================= -->
+
+<div class="screen" id="signupOtpScreen">
+
+    <h2>
+        Verify Your Email
+    </h2>
+
+    <p class="subtitle">
+
+        Enter the 6-digit verification code
+        sent to your email.
+
+    </p>
+
+
+    <div class="otp-message">
+
+        📧 OTP sent to
+
+        <strong id="signupEmailDisplay">
+            your email
+        </strong>
+
+    </div>
+
+
+    <div
+        class="message error"
+        id="signupOtpError"
+    ></div>
+
+
+    <form id="signupOtpForm">
+
+        <div class="otp-box">
+
+            <input class="otp-input" maxlength="1" inputmode="numeric">
+            <input class="otp-input" maxlength="1" inputmode="numeric">
+            <input class="otp-input" maxlength="1" inputmode="numeric">
+            <input class="otp-input" maxlength="1" inputmode="numeric">
+            <input class="otp-input" maxlength="1" inputmode="numeric">
+            <input class="otp-input" maxlength="1" inputmode="numeric">
+
+        </div>
+
+
+        <button
+            class="primary-btn"
+            type="submit"
+        >
+
+            Verify OTP
+
+        </button>
+
+    </form>
+
+
+    <div class="links">
+
+        <a onclick="showScreen('signupScreen')">
+
+            ← Change Email
+
+        </a>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     CREATE PASSWORD
+========================================================= -->
+
+<div class="screen" id="createPasswordScreen">
+
+    <h2>
+        Create Password
+    </h2>
+
+    <p class="subtitle">
+
+        Your email has been verified.
+        Create a secure password.
+
+    </p>
+
+
+    <div
+        class="message error"
+        id="createPasswordError"
+    ></div>
+
+
+    <form id="createPasswordForm">
+
+        <div class="input-group">
+
+            <label>
+                New Password
+            </label>
+
+            <input
+                class="input"
+                type="password"
+                id="newPassword"
+                placeholder="Create password"
+                required
+            >
+
+        </div>
+
+
+        <div class="input-group">
+
+            <label>
+                Confirm Password
+            </label>
+
+            <input
+                class="input"
+                type="password"
+                id="confirmPassword"
+                placeholder="Confirm password"
+                required
+            >
+
+        </div>
+
+
+        <button
+            class="primary-btn"
+            type="submit"
+        >
+
+            Create Account
+
+        </button>
+
+    </form>
+
+</div>
+
+
+<!-- =========================================================
+     FORGOT PASSWORD
+========================================================= -->
+
+<div class="screen" id="forgotScreen">
+
+    <h2>
+        Forgot Password?
+    </h2>
+
+    <p class="subtitle">
+
+        Enter your registered email
+        to receive a verification code.
+
+    </p>
+
+
+    <div
+        class="message error"
+        id="forgotError"
+    ></div>
+
+
+    <form id="forgotForm">
+
+        <div class="input-group">
+
+            <label>
+                Email Address
+            </label>
+
+            <input
+                class="input"
+                type="email"
+                id="forgotEmail"
+                placeholder="Enter your email"
+                required
+            >
+
+        </div>
+
+
+        <button
+            class="primary-btn"
+            type="submit"
+        >
+
+            Send Verification OTP
+
+        </button>
+
+    </form>
+
+
+    <div class="links">
+
+        <a onclick="showScreen('signinScreen')">
+
+            ← Back to Sign In
+
+        </a>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     RESET OTP
+========================================================= -->
+
+<div class="screen" id="resetOtpScreen">
+
+    <h2>
+        Verify OTP
+    </h2>
+
+    <p class="subtitle">
+
+        Enter the 6-digit verification code
+        sent to your email.
+
+    </p>
+
+
+    <div class="otp-message">
+
+        📧 OTP sent to
+
+        <strong id="resetEmailDisplay">
+            your email
+        </strong>
+
+    </div>
+
+
+    <div
+        class="message error"
+        id="resetOtpError"
+    ></div>
+
+
+    <form id="resetOtpForm">
+
+        <div class="otp-box">
+
+            <input class="otp-input" maxlength="1" inputmode="numeric">
+            <input class="otp-input" maxlength="1" inputmode="numeric">
+            <input class="otp-input" maxlength="1" inputmode="numeric">
+            <input class="otp-input" maxlength="1" inputmode="numeric">
+            <input class="otp-input" maxlength="1" inputmode="numeric">
+            <input class="otp-input" maxlength="1" inputmode="numeric">
+
+        </div>
+
+
+        <button
+            class="primary-btn"
+            type="submit"
+        >
+
+            Verify OTP
+
+        </button>
+
+    </form>
+
+
+    <div class="links">
+
+        <a onclick="showScreen('forgotScreen')">
+
+            ← Change Email
+
+        </a>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     RESET PASSWORD
+========================================================= -->
+
+<div class="screen" id="resetPasswordScreen">
+
+    <h2>
+        Reset Password
+    </h2>
+
+    <p class="subtitle">
+
+        Create a new password for your account.
+
+    </p>
+
+
+    <div
+        class="message error"
+        id="resetPasswordError"
+    ></div>
+
+
+    <form id="resetPasswordForm">
+
+        <div class="input-group">
+
+            <label>
+                New Password
+            </label>
+
+            <input
+                class="input"
+                type="password"
+                id="resetPassword"
+                placeholder="Enter new password"
+                required
+            >
+
+        </div>
+
+
+        <div class="input-group">
+
+            <label>
+                Confirm Password
+            </label>
+
+            <input
+                class="input"
+                type="password"
+                id="resetConfirmPassword"
+                placeholder="Confirm new password"
+                required
+            >
+
+        </div>
+
+
+        <button
+            class="primary-btn"
+            type="submit"
+        >
+
+            Reset Password
+
+        </button>
+
+    </form>
+
+</div>
+
+
+<!-- =========================================================
+     SUCCESS
+========================================================= -->
+
+<div class="screen success" id="successScreen">
+
+    <div class="success-icon">
+        ✓
+    </div>
+
+    <h2>
+        Success!
+    </h2>
+
+    <p
+        class="subtitle"
+        id="successText"
+    >
+        Your account is ready.
+    </p>
+
+
+    <button
+        class="primary-btn"
+        onclick="goToSignIn()"
+    >
+
+        Continue to Sign In
+
+    </button>
+
+</div>
+
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   GLOBAL VARIABLES
+========================================================= */
+
+let signupEmail = "";
+let signupOTP = "";
+
+let resetEmail = "";
+let resetOTP = "";
+
+
+/* =========================================================
+   SCREEN NAVIGATION
+========================================================= */
+
+function showScreen(id) {
+
+    document
+        .querySelectorAll(".screen")
+        .forEach(screen => {
+
+            screen.classList.remove("active");
+
+        });
+
+
+    document
+        .getElementById(id)
+        .classList.add("active");
+
+
+    clearMessages();
+
+}
+
+
+/* =========================================================
+   CLEAR MESSAGES
+========================================================= */
+
+function clearMessages() {
+
+    document
+        .querySelectorAll(".message")
+        .forEach(message => {
+
+            message.classList.remove("show");
+
+            message.textContent = "";
+
+        });
+
+}
+
+
+/* =========================================================
+   SHOW MESSAGE
+========================================================= */
+
+function showMessage(id, text) {
+
+    const message =
+        document.getElementById(id);
+
+    message.textContent = text;
+
+    message.classList.add("show");
+
+}
+
+
+/* =========================================================
+   GENERATE OTP
+========================================================= */
+
+function generateOTP() {
+
+    return Math
+        .floor(
+            100000 +
+            Math.random() * 900000
+        )
+        .toString();
+
+}
+
+
+/* =========================================================
+   GET SAVED USERS
+========================================================= */
+
+function getUsers() {
+
+    return JSON.parse(
+        localStorage.getItem("campusUsers") || "[]"
+    );
+
+}
+
+
+/* =========================================================
+   SAVE USERS
+========================================================= */
+
+function saveUsers(users) {
+
+    localStorage.setItem(
+        "campusUsers",
+        JSON.stringify(users)
+    );
+
+}
+
+
+/* =========================================================
+   FIND USER
+========================================================= */
+
+function findUser(email) {
+
+    const users = getUsers();
+
+    return users.find(
+        user =>
+            user.email.toLowerCase() ===
+            email.toLowerCase()
+    );
+
+}
+
+
+/* =========================================================
+   SIGN UP
+========================================================= */
+
+document
+    .getElementById("signupForm")
+    .addEventListener(
+        "submit",
+        function(event) {
+
+            event.preventDefault();
+
+
+            const name =
+                document
+                    .getElementById("signupName")
+                    .value
+                    .trim();
+
+
+            signupEmail =
+                document
+                    .getElementById("signupEmail")
+                    .value
+                    .trim()
+                    .toLowerCase();
+
+
+            /* Check whether account already exists */
+
+            if (findUser(signupEmail)) {
+
+                showMessage(
+                    "signupError",
+                    "An account already exists with this email. Please sign in instead."
+                );
+
+                return;
+
+            }
+
+
+            /* Generate OTP internally */
+
+            signupOTP = generateOTP();
+
+
+            /*
+                IMPORTANT:
+
+                OTP is NOT displayed.
+
+                Frontend prototype only.
+
+                Later:
+
+                Backend generates OTP
+                ↓
+                Email service sends OTP
+            */
+
+
+            document
+                .getElementById(
+                    "signupEmailDisplay"
+                )
+                .textContent = signupEmail;
+
+
+            clearOTP("signupOtpScreen");
+
+
+            showScreen(
+                "signupOtpScreen"
+            );
+
+        }
+    );
+
+
+/* =========================================================
+   SIGNUP OTP
+========================================================= */
+
+document
+    .getElementById("signupOtpForm")
+    .addEventListener(
+        "submit",
+        function(event) {
+
+            event.preventDefault();
+
+
+            const otp =
+                getOTP("signupOtpScreen");
+
+
+            if (otp.length !== 6) {
+
+                showMessage(
+                    "signupOtpError",
+                    "Please enter the complete 6-digit OTP."
+                );
+
+                return;
+
+            }
+
+
+            if (otp !== signupOTP) {
+
+                showMessage(
+                    "signupOtpError",
+                    "Invalid OTP. Please check your email and try again."
+                );
+
+                return;
+
+            }
+
+
+            showScreen(
+                "createPasswordScreen"
+            );
+
+        }
+    );
+
+
+/* =========================================================
+   CREATE ACCOUNT
+========================================================= */
+
+document
+    .getElementById("createPasswordForm")
+    .addEventListener(
+        "submit",
+        function(event) {
+
+            event.preventDefault();
+
+
+            const name =
+                document
+                    .getElementById("signupName")
+                    .value
+                    .trim();
+
+
+            const password =
+                document
+                    .getElementById("newPassword")
+                    .value;
+
+
+            const confirmPassword =
+                document
+                    .getElementById("confirmPassword")
+                    .value;
+
+
+            const error =
+                document.getElementById(
+                    "createPasswordError"
+                );
+
+
+            if (password.length < 6) {
+
+                showMessage(
+                    "createPasswordError",
+                    "Password must contain at least 6 characters."
+                );
+
+                return;
+
+            }
+
+
+            if (password !== confirmPassword) {
+
+                showMessage(
+                    "createPasswordError",
+                    "Passwords do not match."
+                );
+
+                return;
+
+            }
+
+
+            /* Save account locally */
+
+            const users = getUsers();
+
+
+            users.push({
+
+                name: name,
+
+                email: signupEmail,
+
+                password: password
+
+            });
+
+
+            saveUsers(users);
+
+
+            document
+                .getElementById("successText")
+                .textContent =
+                "Your account has been created successfully. You can now sign in.";
+
+
+            showScreen(
+                "successScreen"
+            );
+
+        }
+    );
+
+
+/* =========================================================
+   SIGN IN
+========================================================= */
+
+document
+    .getElementById("signinForm")
+    .addEventListener(
+        "submit",
+        function(event) {
+
+            event.preventDefault();
+
+
+            const email =
+                document
+                    .getElementById("signinEmail")
+                    .value
+                    .trim()
+                    .toLowerCase();
+
+
+            const password =
+                document
+                    .getElementById("signinPassword")
+                    .value;
+
+
+            /* Find account */
+
+            const user =
+                findUser(email);
+
+
+            /* NEW USER */
+
+            if (!user) {
+
+                showMessage(
+                    "signinError",
+                    "Account not found. Please sign up first to create an account."
+                );
+
+                return;
+
+            }
+
+
+            /* WRONG PASSWORD */
+
+            if (user.password !== password) {
+
+                showMessage(
+                    "signinError",
+                    "Incorrect password. Please try again or use Forgot Password."
+                );
+
+                return;
+
+            }
+
+
+            /* EXISTING USER + CORRECT PASSWORD */
+
+            showMessage(
+                "signinSuccess",
+                "Login successful! Welcome back, " +
+                user.name + "."
+            );
+
+
+            /*
+                FINAL BACKEND VERSION:
+
+                Backend will authenticate user
+                and create a secure session/token.
+
+                Then:
+
+                window.location.href =
+                    "/dashboard";
+            */
+
+        }
+    );
+
+
+/* =========================================================
+   FORGOT PASSWORD
+========================================================= */
+
+document
+    .getElementById("forgotForm")
+    .addEventListener(
+        "submit",
+        function(event) {
+
+            event.preventDefault();
+
+
+            resetEmail =
+                document
+                    .getElementById("forgotEmail")
+                    .value
+                    .trim()
+                    .toLowerCase();
+
+
+            /* Check account */
+
+            const user =
+                findUser(resetEmail);
+
+
+            if (!user) {
+
+                showMessage(
+                    "forgotError",
+                    "No account exists with this email. Please check your email or sign up."
+                );
+
+                return;
+
+            }
+
+
+            /* Generate OTP */
+
+            resetOTP = generateOTP();
+
+
+            /*
+                OTP is NOT displayed.
+
+                Final backend:
+
+                Backend → Email OTP
+            */
+
+
+            document
+                .getElementById(
+                    "resetEmailDisplay"
+                )
+                .textContent = resetEmail;
+
+
+            clearOTP(
+                "resetOtpScreen"
+            );
+
+
+            showScreen(
+                "resetOtpScreen"
+            );
+
+        }
+    );
+
+
+/* =========================================================
+   RESET OTP
+========================================================= */
+
+document
+    .getElementById("resetOtpForm")
+    .addEventListener(
+        "submit",
+        function(event) {
+
+            event.preventDefault();
+
+
+            const otp =
+                getOTP("resetOtpScreen");
+
+
+            if (otp.length !== 6) {
+
+                showMessage(
+                    "resetOtpError",
+                    "Please enter the complete 6-digit OTP."
+                );
+
+                return;
+
+            }
+
+
+            if (otp !== resetOTP) {
+
+                showMessage(
+                    "resetOtpError",
+                    "Invalid OTP. Please try again."
+                );
+
+                return;
+
+            }
+
+
+            showScreen(
+                "resetPasswordScreen"
+            );
+
+        }
+    );
+
+
+/* =========================================================
+   RESET PASSWORD
+========================================================= */
+
+document
+    .getElementById("resetPasswordForm")
+    .addEventListener(
+        "submit",
+        function(event) {
+
+            event.preventDefault();
+
+
+            const password =
+                document
+                    .getElementById("resetPassword")
+                    .value;
+
+
+            const confirmPassword =
+                document
+                    .getElementById(
+                        "resetConfirmPassword"
+                    )
+                    .value;
+
+
+            if (password.length < 6) {
+
+                showMessage(
+                    "resetPasswordError",
+                    "Password must contain at least 6 characters."
+                );
+
+                return;
+
+            }
+
+
+            if (password !== confirmPassword) {
+
+                showMessage(
+                    "resetPasswordError",
+                    "Passwords do not match."
+                );
+
+                return;
+
+            }
+
+
+            /* Find user */
+
+            const users =
+                getUsers();
+
+
+            const index =
+                users.findIndex(
+                    user =>
+                        user.email ===
+                        resetEmail
+                );
+
+
+            if (index === -1) {
+
+                showMessage(
+                    "resetPasswordError",
+                    "Account not found."
+                );
+
+                return;
+
+            }
+
+
+            /* Update password */
+
+            users[index].password =
+                password;
+
+
+            saveUsers(users);
+
+
+            document
+                .getElementById(
+                    "successText"
+                )
+                .textContent =
+                "Your password has been reset successfully. You can now sign in.";
+
+
+            showScreen(
+                "successScreen"
+            );
+
+        }
+    );
+
+
+/* =========================================================
+   CONTINUE TO SIGN IN
+========================================================= */
+
+function goToSignIn() {
+
+    document
+        .getElementById("signinEmail")
+        .value = "";
+
+    document
+        .getElementById("signinPassword")
+        .value = "";
+
+
+    showScreen(
+        "signinScreen"
+    );
+
+}
+
+
+/* =========================================================
+   OTP INPUT HANDLING
+========================================================= */
+
+document
+    .querySelectorAll(".otp-input")
+    .forEach(
+        (input, index, inputs) => {
+
+
+            input.addEventListener(
+                "input",
+                function() {
+
+                    this.value =
+                        this.value.replace(
+                            /[^0-9]/g,
+                            ""
+                        );
+
+
+                    if (
+                        this.value.length === 1 &&
+                        inputs[index + 1]
+                    ) {
+
+                        inputs[index + 1].focus();
+
+                    }
+
+                }
+            );
+
+
+            input.addEventListener(
+                "keydown",
+                function(event) {
+
+                    if (
+                        event.key === "Backspace" &&
+                        this.value === "" &&
+                        inputs[index - 1]
+                    ) {
+
+                        inputs[index - 1].focus();
+
+                    }
+
+                }
+            );
+
+
+            input.addEventListener(
+                "paste",
+                function(event) {
+
+                    event.preventDefault();
+
+
+                    const pasted =
+                        (
+                            event.clipboardData ||
+                            window.clipboardData
+                        )
+                        .getData("text")
+                        .replace(
+                            /[^0-9]/g,
+                            ""
+                        );
+
+
+                    if (
+                        pasted.length === 6
+                    ) {
+
+                        inputs.forEach(
+                            (box, i) => {
+
+                                box.value =
+                                    pasted[i] || "";
+
+                            }
+                        );
+
+                    }
+
+                }
+            );
+
+        }
+    );
+
+
+/* =========================================================
+   GET OTP
+========================================================= */
+
+function getOTP(screenId) {
+
+    const inputs =
+        document.querySelectorAll(
+            "#" +
+            screenId +
+            " .otp-input"
+        );
+
+
+    let otp = "";
+
+
+    inputs.forEach(
+        input => {
+
+            otp +=
+                input.value.trim();
+
+        }
+    );
+
+
+    return otp;
+
+}
+
+
+/* =========================================================
+   CLEAR OTP
+========================================================= */
+
+function clearOTP(screenId) {
+
+    const inputs =
+        document.querySelectorAll(
+            "#" +
+            screenId +
+            " .otp-input"
+        );
+
+
+    inputs.forEach(
+        input => {
+
+            input.value = "";
+
+        }
+    );
+
+}
+
+</script>
+
+</body>
+</html>
