@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+jinja2
+python-dotenv
+pydantic
+pydantic[email]
+langchain
+langchain-google-genai
+langgraph
