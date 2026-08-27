@@ -1,0 +1,549 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+/>
+
+<script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CampusGuard AI — Command Center</title>
+<style>
+
+    body.light-theme {
+    --bg:#f4f7fb;
+    --panel:#ffffff;
+    --panel2:#eef3f8;
+    --line:#d5dee8;
+    --text:#172033;
+    --muted:#667085;
+}
+
+body.light-theme .sidebar,
+body.light-theme .topbar {
+    background:#ffffff;
+}
+
+body.light-theme .metric,
+body.light-theme .panel {
+    background:#ffffff;
+}
+
+body.light-theme .action {
+    background:#f8fafc;
+    color:#172033;
+}
+:root{
+  --bg:#07111f;--panel:#0d1a2b;--panel2:#101f33;--line:#20334a;
+  --text:#eef5ff;--muted:#8ea3bb;--blue:#4f8cff;--red:#ff5d68;
+  --green:#35d39a;--amber:#f5b94c;--shadow:0 18px 60px rgba(0,0,0,.28)
+}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(circle at 80% -10%,rgba(79,140,255,.12),transparent 30%),var(--bg);
+color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif}
+button,input,textarea,select{font:inherit}button{cursor:pointer}
+.app{min-height:100vh;display:grid;grid-template-columns:232px 1fr}
+.sidebar{position:sticky;top:0;height:100vh;padding:22px 14px;border-right:1px solid var(--line);background:rgba(7,17,31,.92);backdrop-filter:blur(16px);display:flex;flex-direction:column}
+.brand{display:flex;align-items:center;gap:11px;padding:4px 8px 28px}
+.brand-mark{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,#ff5d68,#ff8b63);box-shadow:0 8px 25px rgba(255,93,104,.25)}
+.brand b{font-size:15px}.brand small{display:block;color:var(--muted);font-size:10px;margin-top:2px}
+.nav{display:grid;gap:5px}.nav button{border:1px solid transparent;background:transparent;color:var(--muted);text-align:left;padding:11px 12px;border-radius:11px;transition:.22s}
+.nav button:hover,.nav button.active{background:var(--panel2);border-color:var(--line);color:var(--text)}
+.nav button.active{box-shadow:inset 3px 0 var(--blue)}
+.sidebar-bottom{margin-top:auto;border-top:1px solid var(--line);padding-top:14px}
+.profile-mini{padding:10px 11px;margin-bottom:8px;border-radius:12px;background:var(--panel)}
+.profile-mini strong{font-size:12px}.profile-mini span{display:block;color:var(--muted);font-size:10px;margin-top:3px}
+.logout{width:100%;border:0;background:transparent;color:var(--muted);padding:10px;text-align:left;border-radius:10px}.logout:hover{background:#24151a;color:#ff9aa1}
+.main{min-width:0}.topbar{height:70px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:20;background:rgba(7,17,31,.82);backdrop-filter:blur(18px)}
+.crumb{color:var(--muted);font-size:12px}.title{font-size:18px;font-weight:750}.status{display:flex;align-items:center;gap:8px;color:var(--green);font-size:11px;font-weight:700}.dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 12px var(--green)}
+.content{max-width:1380px;margin:auto;padding:26px}
+.hero{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:22px}
+.hero h1{margin:0;font-size:28px;letter-spacing:-.7px}.hero p{margin:7px 0 0;color:var(--muted);font-size:13px}
+.primary{border:0;border-radius:12px;padding:12px 17px;background:var(--red);color:#fff;font-weight:800;box-shadow:0 12px 28px rgba(255,93,104,.18);transition:.22s}
+.primary:hover{transform:translateY(-2px)}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px}
+.metric,.panel{background:linear-gradient(180deg,rgba(16,31,51,.92),rgba(13,26,43,.92));border:1px solid var(--line);border-radius:17px;box-shadow:var(--shadow)}
+.metric{padding:17px}.metric-label{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.08em}.metric-value{font-size:27px;font-weight:800;margin-top:9px}.metric-sub{font-size:10px;color:var(--muted);margin-top:4px}
+.grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(300px,.85fr);gap:14px}
+.panel{padding:18px}.panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}.panel-head h2{margin:0;font-size:14px}.panel-head span{color:var(--muted);font-size:10px}
+.map{height:455px;border:1px solid var(--line);border-radius:14px;overflow:hidden;position:relative;background:#091522}
+#campusMap{
+    width:100%;
+    height:100%;
+    min-height:455px;
+}
+.map-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(120,160,200,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(120,160,200,.07) 1px,transparent 1px);background-size:32px 32px}
+.road{position:absolute;background:#233b55;border-radius:10px;box-shadow:0 0 0 1px rgba(255,255,255,.025)}.r1{width:76%;height:18px;left:10%;top:31%;transform:rotate(-10deg)}.r2{width:18px;height:76%;left:49%;top:11%;transform:rotate(8deg)}.r3{width:62%;height:14px;left:24%;top:67%;transform:rotate(15deg)}
+.map-label{position:absolute;padding:7px 9px;border-radius:9px;background:rgba(13,26,43,.92);border:1px solid #29435f;font-size:10px;color:#c7d7e9}.m1{left:9%;top:18%}.m2{right:10%;top:21%}.m3{left:11%;bottom:17%}.m4{right:9%;bottom:20%}
+.map-center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:18px;height:18px;border-radius:50%;background:var(--blue);border:3px solid #dceaff;box-shadow:0 0 0 13px rgba(79,140,255,.12),0 0 35px rgba(79,140,255,.7)}
+.map-note{position:absolute;left:14px;bottom:14px;background:rgba(7,17,31,.88);border:1px solid var(--line);border-radius:10px;padding:9px 11px;color:var(--muted);font-size:10px;max-width:260px}
+.map-note b{display:block;color:var(--text);margin-bottom:3px}
+.side-stack{display:grid;gap:14px}.emergency{border-color:rgba(255,93,104,.3);background:linear-gradient(180deg,rgba(72,25,34,.42),rgba(13,26,43,.92))}
+.emergency-status{display:flex;align-items:center;gap:8px;color:#ff9aa1;font-size:10px;font-weight:800}.pulse{width:8px;height:8px;border-radius:50%;background:var(--red);animation:pulse 1.5s infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 8px rgba(255,93,104,0)}}
+.empty{padding:30px 8px;text-align:center;color:var(--muted);font-size:11px}.empty strong{display:block;color:var(--text);font-size:13px;margin-bottom:5px}
+.action-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.action{border:1px solid var(--line);background:#0a1726;color:var(--text);border-radius:12px;padding:13px;text-align:left;transition:.2s}.action:hover{border-color:#3d638d;transform:translateY(-1px)}.action b{display:block;font-size:11px}.action span{display:block;color:var(--muted);font-size:9px;margin-top:4px}
+.timeline{display:grid;gap:10px}.event{display:grid;grid-template-columns:8px 1fr;gap:10px}.event i{width:7px;height:7px;border-radius:50%;background:var(--blue);margin-top:4px}.event b{font-size:10px}.event span{display:block;color:var(--muted);font-size:9px;margin-top:2px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.68);display:none;align-items:center;justify-content:center;padding:20px;z-index:10000}.modal.open{display:flex}.modal-box{width:620px;max-width:100%;max-height:90vh;overflow:auto;background:#0b1828;border:1px solid #29435f;border-radius:20px;padding:22px;box-shadow:0 30px 100px rgba(0,0,0,.5);animation:in .22s ease}
+@keyframes in{from{opacity:0;transform:translateY(12px) scale(.98)}to{opacity:1;transform:none}}
+.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.modal-head h2{margin:0;font-size:17px}.close{border:0;background:#13253a;color:var(--muted);width:34px;height:34px;border-radius:10px}
+.field{margin-bottom:13px}.field label{display:block;color:#b7c8db;font-size:10px;font-weight:700;margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}.field input,.field textarea,.field select{width:100%;border:1px solid var(--line);background:#081523;color:var(--text);border-radius:10px;padding:11px;outline:0}.field textarea{min-height:90px;resize:vertical}.field input:focus,.field textarea:focus,.field select:focus{border-color:#4f8cff;box-shadow:0 0 0 3px rgba(79,140,255,.1)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.tools{display:flex;gap:8px;flex-wrap:wrap;margin:4px 0 14px}.tool{border:1px solid var(--line);background:#0c1b2c;color:#dce8f5;border-radius:10px;padding:9px 11px;font-size:10px}.tool:hover{border-color:#416b98}.camera{display:none;width:100%;border-radius:12px;border:1px solid var(--line);margin-top:8px}.location{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px;border:1px dashed #29435f;border-radius:10px;color:var(--muted);font-size:10px;margin-bottom:13px}.submit{width:100%;border:0;border-radius:11px;padding:12px;background:linear-gradient(90deg,#3979ff,#5c9bff);color:white;font-weight:800}
+.toast{position:fixed;right:20px;bottom:20px;background:#102237;border:1px solid #29435f;border-radius:12px;padding:12px 15px;color:#eaf3ff;font-size:11px;opacity:0;transform:translateY(10px);pointer-events:none;transition:.22s;z-index:200}.toast.show{opacity:1;transform:none}
+@media(max-width:1050px){.metrics{grid-template-columns:1fr 1fr}.grid{grid-template-columns:1fr}}
+@media(max-width:700px){.app{grid-template-columns:1fr}.sidebar{display:none}.topbar{padding:0 16px}.content{padding:16px}.hero{align-items:flex-start;flex-direction:column}.metrics{grid-template-columns:1fr 1fr}.row{grid-template-columns:1fr}.map{height:360px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">🛡️</div>
+      <div><b>CampusGuard <span style="color:#6fa0ff">AI</span></b><small>Emergency Response</small></div>
+    </div>
+    <nav class="nav">
+      <button class="active" onclick="scrollToTop()">⌂ &nbsp; Command Center</button>
+      <button onclick="openEmergency()">🚨 &nbsp; Report Emergency</button>
+      <button onclick="focusMap()">⌖ &nbsp; Campus Map</button>
+      <button onclick="openResources()">◈ &nbsp; Resources</button>
+      <button onclick="openNotifications()">
+    ◷ &nbsp; Notifications
+</button>
+      <button onclick="openSettings()">⚙ &nbsp; Settings</button>
+    </nav>
+    <div class="sidebar-bottom">
+      <div class="profile-mini"><strong>Campus Operator</strong><span id="profileRole">Authenticated session</span></div>
+      <button class="logout" onclick="logout()">↪ &nbsp; Logout</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div><div class="title">Command Center</div><div class="crumb">CampusGuard AI · Emergency Operations</div></div>
+      <div class="status"><span class="dot"></span> SYSTEM ONLINE</div>
+    </header>
+
+    <section class="content">
+      <div class="hero">
+        <div><h1>Campus safety, at a glance.</h1><p>One clear workspace for incidents, location, response and emergency actions.</p></div>
+        <button class="primary" onclick="openEmergency()">🚨 Report Emergency</button>
+      </div>
+
+      <div class="metrics">
+        <div class="metric"><div class="metric-label">System</div><div class="metric-value">LIVE</div><div class="metric-sub">Backend connection available</div></div>
+        <div class="metric"><div class="metric-label">Emergency Radius</div><div class="metric-value">500 m</div><div class="metric-sub">Default proximity threshold</div></div>
+        <div class="metric"><div class="metric-label">AI Engine</div><div class="metric-value">READY</div><div class="metric-sub">Gemini + LangGraph</div></div>
+        <div class="metric"><div class="metric-label">Location</div><div class="metric-value" id="locationMetric">—</div><div class="metric-sub" id="locationSub">Not requested</div></div>
+      </div>
+
+      <div class="grid">
+        <section class="panel" id="mapPanel">
+          <div class="panel-head"><h2>Campus Map</h2><span id="mapState">Location not requested</span></div>
+          <div id="campusMap"></div>
+
+<div class="map-note">
+    <b>VFSTR Guntur Campus</b>
+    <span id="mapNote">
+        Interactive campus map. Allow location access to show your position.
+    </span>
+</div>
+        </section>
+
+        <div class="side-stack">
+          <section class="panel emergency">
+            <div class="panel-head"><h2>Emergency Status</h2><div class="emergency-status"><span class="pulse"></span> READY</div></div>
+            <div class="empty" id="emergencyStatusContent">
+    <strong>No live incident selected</strong>
+    When a real incident is created, its severity, location, 500m zone and response state will appear here.
+</div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head"><h2>Quick Actions</h2><span>Immediate</span></div>
+            <div class="action-grid">
+              <button class="action" onclick="openEmergency('Fire')"><b>🔥 Fire</b><span>Report immediately</span></button>
+              <button class="action" onclick="openEmergency('Medical')"><b>🏥 Medical</b><span>Request assistance</span></button>
+              <button class="action" onclick="openEmergency('Security')"><b>🛡 Security</b><span>Security incident</span></button>
+              <button class="action" onclick="openEmergency('Accident')"><b>🚑 Accident</b><span>Report accident</span></button>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head"><h2>System Activity</h2><span>Local session</span></div>
+            <div class="timeline">
+              <div class="event"><i></i><div><b>AI engine initialized</b><span>Gemini connection configured</span></div></div>
+              <div class="event"><i></i><div><b>Emergency workflow ready</b><span>POST /api/emergency available</span></div></div>
+              <div class="event"><i></i><div><b>Location service ready</b><span>Browser permission required</span></div></div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div class="modal" id="emergencyModal" onclick="if(event.target===this)closeEmergency()">
+  <div class="modal-box">
+    <div class="modal-head"><h2>Report an Emergency</h2><button class="close" onclick="closeEmergency()">✕</button></div>
+    <div class="row">
+      <div class="field"><label>Emergency type</label><select id="emergencyType"><option>Fire</option><option>Medical</option><option>Accident</option><option>Security</option><option>Natural Disaster</option><option>Other</option></select></div>
+      <div class="field"><label>Severity (1–5)</label><select id="severity"><option value="5">5 · Critical</option><option value="4" selected>4 · High</option><option value="3">3 · Moderate</option><option value="2">2 · Low</option><option value="1">1 · Minor</option></select></div>
+    </div>
+    <div class="field"><label>Location</label><input id="emergencyLocation" placeholder="Building / campus location"></div>
+    <div class="location"><span id="locationText">Location not detected</span><button class="tool" onclick="getLocation()">📍 Use my location</button></div>
+    <div class="field"><label>Description</label><textarea id="emergencyDescription" placeholder="Briefly describe what happened..."></textarea></div>
+    <div class="tools">
+      <button class="tool" onclick="startCamera()">📷 Open camera</button>
+      <button class="tool" onclick="stopCamera()">Stop camera</button>
+      <button class="tool" onclick="startVoice()">🎙 Start voice</button>
+    </div>
+    <video id="camera" class="camera" autoplay playsinline></video>
+    <div class="tools"><button class="tool" id="captureBtn" style="display:none" onclick="capturePhoto()">Capture photo</button><span id="voiceState" style="color:#8ea3bb;font-size:10px;padding:9px">Voice: ready</span></div>
+    <button class="submit" onclick="submitEmergency()">Submit Emergency</button>
+  </div>
+</div>
+<div class="modal" id="settingsModal"
+     onclick="if(event.target===this)closeSettings()">
+
+    <div class="modal-box">
+
+        <div class="modal-head">
+            <h2>Settings</h2>
+            <button class="close" onclick="closeSettings()">✕</button>
+        </div>
+
+        <div class="location">
+            <span>
+                <b>☀️ Light Theme</b><br>
+                Use the light dashboard theme.
+            </span>
+            <button class="tool" onclick="setTheme('light')">
+                Apply
+            </button>
+        </div>
+
+        <div class="location">
+            <span>
+                <b>🌙 Dark Theme</b><br>
+                Use the dark dashboard theme.
+            </span>
+            <button class="tool" onclick="setTheme('dark')">
+                Apply
+            </button>
+        </div>
+
+    </div>
+</div>
+
+        <div class="field">
+            <label>Emergency Alerts</label>
+            <select id="settingEmergencyAlerts">
+                <option value="on">Enabled</option>
+                <option value="off">Disabled</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>500m Emergency Notifications</label>
+            <select id="settingNearbyAlerts">
+                <option value="on">Enabled</option>
+                <option value="off">Disabled</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Emergency Sound</label>
+            <select id="settingSound">
+                <option value="on">Enabled</option>
+                <option value="off">Disabled</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Location Sharing</label>
+            <select id="settingLocation">
+                <option value="on">Enabled</option>
+                <option value="off">Disabled</option>
+            </select>
+        </div>
+
+        <button class="submit" onclick="saveSettings()">
+            Save Settings
+        </button>
+    </div>
+</div>
+<div class="modal" id="resourcesModal"
+     onclick="if(event.target===this)closeResources()">
+
+    <div class="modal-box">
+
+        <div class="modal-head">
+            <h2>Campus Resources</h2>
+            <button class="close" onclick="closeResources()">✕</button>
+        </div>
+
+        <div class="action-grid">
+
+            <div class="action">
+                <b>🚑 Medical Team</b>
+                <span id="medicalStatus">Available</span>
+            </div>
+
+            <div class="action">
+                <b>🔥 Fire Response</b>
+                <span id="fireStatus">Available</span>
+            </div>
+
+            <div class="action">
+                <b>🛡 Security Team</b>
+                <span id="securityStatus">Available</span>
+            </div>
+
+            <div class="action">
+                <b>🚨 Emergency Vehicle</b>
+                <span id="vehicleStatus">Available</span>
+            </div>
+
+        </div>
+
+        <div class="location" style="margin-top:14px">
+            <span>
+                <b>Response radius</b><br>
+                Resources within 500 m
+            </span>
+            <span style="color:#35d39a">● READY</span>
+        </div>
+
+    </div>
+</div>
+<div class="modal" id="notificationsModal"
+     onclick="if(event.target===this)closeNotifications()">
+
+    <div class="modal-box">
+
+        <div class="modal-head">
+            <h2>Notifications</h2>
+            <button class="close" onclick="closeNotifications()">✕</button>
+        </div>
+
+        <div id="notificationsList">
+
+            <div class="location">
+                <span>
+                    <b>System Online</b><br>
+                    CampusGuard is ready to receive emergencies.
+                </span>
+                <span style="color:#35d39a">● NOW</span>
+            </div>
+
+            <div class="location">
+                <span>
+                    <b>No new emergency alerts</b><br>
+                    New incidents will appear here automatically.
+                </span>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+let stream=null, photoData=null, userCoords=null, toastTimer=null;
+let campusMap = null;
+let userMarker = null;
+
+function initCampusMap() {
+
+    if (campusMap) {
+        campusMap.invalidateSize();
+        return;
+    }
+
+    // VFSTR Guntur / Vadlamudi approximate campus center
+    const campusCenter = [16.3738, 80.5508];
+
+    campusMap = L.map('campusMap').setView(campusCenter, 16);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(campusMap);
+
+    L.marker(campusCenter)
+        .addTo(campusMap)
+        .bindPopup('<b>VFSTR Guntur Campus</b><br>Vadlamudi, Guntur')
+        .openPopup();
+
+    L.circle(campusCenter, {
+        radius: 500
+    }).addTo(campusMap)
+      .bindPopup('500 m emergency response zone');
+
+    document.getElementById('mapState').textContent = 'Campus map ready';
+    document.getElementById('mapNote').textContent =
+        'VFSTR Guntur campus map loaded.';
+
+    setTimeout(() => {
+        campusMap.invalidateSize();
+    }, 200);
+}
+
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2800)}
+function openResources() {
+    document.getElementById('resourcesModal').classList.add('open');
+}
+function openNotifications() {
+    document.getElementById('notificationsModal').classList.add('open');
+}
+
+function closeNotifications() {
+    document.getElementById('notificationsModal').classList.remove('open');
+}
+function closeResources() {
+    document.getElementById('resourcesModal').classList.remove('open');
+}
+function openEmergency(type){document.getElementById('emergencyModal').classList.add('open');if(type)document.getElementById('emergencyType').value=type}
+function closeEmergency(){stopCamera();document.getElementById('emergencyModal').classList.remove('open')}
+function scrollToTop(){window.scrollTo({top:0,behavior:'smooth'})}
+function focusMap() {
+
+    document.getElementById('mapPanel')
+        .scrollIntoView({ behavior: 'smooth' });
+
+    setTimeout(() => {
+        initCampusMap();
+    }, 300);
+}
+function logout(){sessionStorage.clear();window.location.href='/'}
+
+async function getLocation(){
+  const text=document.getElementById('locationText'); text.textContent='Requesting location…';
+  if(!navigator.geolocation){text.textContent='Geolocation is not supported';return}
+  navigator.geolocation.getCurrentPosition(p=>{
+    userCoords={lat:p.coords.latitude,lng:p.coords.longitude,accuracy:p.coords.accuracy};
+    text.textContent=`${userCoords.lat.toFixed(5)}, ${userCoords.lng.toFixed(5)} · ±${Math.round(userCoords.accuracy)}m`;
+    document.getElementById('locationMetric').textContent='READY';
+    document.getElementById('locationSub').textContent='GPS permission granted';
+    document.getElementById('mapState').textContent='Live location available';
+    showToast('📍 Location detected');
+  },e=>{text.textContent='Location permission denied or unavailable';showToast('Location could not be detected')},{enableHighAccuracy:true,timeout:10000,maximumAge:10000});
+}
+
+async function startCamera(){
+  try{
+    stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'},audio:false});
+    const v=document.getElementById('camera');v.srcObject=stream;v.style.display='block';document.getElementById('captureBtn').style.display='inline-block';showToast('Camera ready');
+  }catch(e){showToast('Camera permission was denied or unavailable')}
+}
+function stopCamera(){if(stream){stream.getTracks().forEach(t=>t.stop());stream=null}const v=document.getElementById('camera');v.style.display='none';document.getElementById('captureBtn').style.display='none'}
+function capturePhoto(){
+  const v=document.getElementById('camera'),c=document.createElement('canvas');c.width=v.videoWidth;c.height=v.videoHeight;c.getContext('2d').drawImage(v,0,0);photoData=c.toDataURL('image/jpeg',.82);showToast('📷 Photo captured for this report'); 
+}
+
+function startVoice(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){showToast('Voice recognition is not supported in this browser');return}
+  const r=new SR();r.lang='en-IN';r.interimResults=false;r.maxAlternatives=1;
+  document.getElementById('voiceState').textContent='Voice: listening…';
+  r.onresult=e=>{document.getElementById('emergencyDescription').value=e.results[0][0].transcript;document.getElementById('voiceState').textContent='Voice: transcript added';showToast('🎙 Voice converted to text')};
+  r.onerror=()=>document.getElementById('voiceState').textContent='Voice: unavailable';
+  r.onend=()=>{if(document.getElementById('voiceState').textContent==='Voice: listening…')document.getElementById('voiceState').textContent='Voice: ready'};
+  r.start();
+}
+
+async function submitEmergency(){
+  const type=document.getElementById('emergencyType').value;
+  const location=document.getElementById('emergencyLocation').value.trim();
+  const description=document.getElementById('emergencyDescription').value.trim();
+  const severity=Number(document.getElementById('severity').value);
+  if(!location && !userCoords){showToast('Please enter a location or use GPS');return}
+  if(!description){showToast('Please describe the emergency');return}
+  const finalLocation=location||`${userCoords.lat.toFixed(5)}, ${userCoords.lng.toFixed(5)}`;
+  const blocked_nodes=[];
+  showToast('Sending emergency to AI agents…');
+  try{
+    const res = await fetch('/api/emergency', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+        location: finalLocation,
+        hazard_type: type,
+        severity: severity,
+        description: description,
+        blocked_nodes: blocked_nodes,
+        image_data: photoData
+    })
+});
+    const data=await res.json();
+    if(!res.ok)throw new Error(data.detail||'Emergency request failed');
+    closeEmergency();
+
+document.getElementById('locationMetric').textContent = 'ACTIVE';
+document.getElementById('locationSub').textContent = 'Emergency processed';
+
+document.getElementById('emergencyStatusContent').innerHTML = `
+    <strong>🚨 ${type} Emergency</strong>
+    <div style="margin-top:8px">
+        <b>Severity:</b> ${severity}/5
+    </div>
+    <div style="margin-top:5px">
+        <b>Location:</b> ${finalLocation}
+    </div>
+    <div style="margin-top:5px">
+        <b>Status:</b>
+        <span style="color:#35d39a">AI PROCESSED</span>
+    </div>
+`;
+
+
+showToast('✅ Emergency processed by AI workflow');
+    console.log('CampusGuard AI response:',data);
+  }catch(err){console.error(err);showToast('❌ Backend could not process the emergency')}
+}const notificationsList = document.getElementById('notificationsList');
+
+notificationsList.insertAdjacentHTML('afterbegin', `
+    <div class="location" style="border-color:rgba(255,93,104,.4);margin-bottom:8px">
+        <span>
+            <b>🚨 ${type} Emergency</b><br>
+            ${finalLocation}<br>
+            Severity ${severity}/5 · AI processed
+        </span>
+        <span style="color:#ff6b73">● NEW</span>
+    </div>
+`);
+
+function openSettings() {
+    document.getElementById('settingsModal').classList.add('open');
+}
+
+function closeSettings() {
+    document.getElementById('settingsModal').classList.remove('open');
+}
+
+function setTheme(theme) {
+    document.body.classList.toggle('light-theme', theme === 'light');
+    localStorage.setItem('campusguard-theme', theme);
+    closeSettings();
+    showToast(
+        theme === 'light'
+        ? '☀️ Light theme enabled'
+        : '🌙 Dark theme enabled'
+    );
+}
+
+if (localStorage.getItem('campusguard-theme') === 'light') {
+    document.body.classList.add('light-theme');
+}
+</script>
+</body>
+</html>
