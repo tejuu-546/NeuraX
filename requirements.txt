@@ -7,3 +7,4 @@ pydantic[email]
 langchain
 langchain-google-genai
 langgraph
+networkx
