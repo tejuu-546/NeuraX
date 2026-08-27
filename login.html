@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>CampusEmergencyAI | Authentication</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet">
 
 <style>
 
@@ -40,22 +42,18 @@ body {
     overflow: hidden;
 
     background:
-        radial-gradient(
-            circle at 15% 20%,
+        radial-gradient(circle at 15% 20%,
             rgba(0,190,255,.15),
-            transparent 35%
-        ),
-        radial-gradient(
-            circle at 85% 80%,
+            transparent 35%),
+
+        radial-gradient(circle at 85% 80%,
             rgba(255,30,70,.10),
-            transparent 35%
-        ),
-        linear-gradient(
-            135deg,
+            transparent 35%),
+
+        linear-gradient(135deg,
             #02070d,
             #071522,
-            #02070d
-        );
+            #02070d);
 }
 
 .background::before {
@@ -93,22 +91,16 @@ body {
 
 .orb {
     position: absolute;
-
     border-radius: 50%;
-
     filter: blur(10px);
-
     opacity: .2;
-
     animation: floating 8s ease-in-out infinite;
 }
 
 .orb1 {
     width: 350px;
     height: 350px;
-
     background: #00bfff;
-
     left: -130px;
     top: -130px;
 }
@@ -116,24 +108,18 @@ body {
 .orb2 {
     width: 300px;
     height: 300px;
-
     background: #ff1744;
-
     right: -100px;
     bottom: -120px;
-
     animation-delay: 2s;
 }
 
 .orb3 {
     width: 160px;
     height: 160px;
-
     background: #0066ff;
-
     right: 20%;
     top: 10%;
-
     animation-delay: 4s;
 }
 
@@ -350,9 +336,7 @@ body {
 
 .left h1 {
     font-size: 38px;
-
     line-height: 1.2;
-
     margin-bottom: 20px;
 }
 
@@ -408,9 +392,47 @@ body {
 
 }
 
+.left::before {
+    content: "";
+    position: absolute;
+
+    width: 220px;
+    height: 220px;
+
+    right: -110px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    border-radius: 50%;
+
+    border: 1px solid rgba(0, 200, 255, 0.18);
+
+    box-shadow:
+        0 0 30px rgba(0, 200, 255, 0.08),
+        inset 0 0 30px rgba(0, 200, 255, 0.05);
+
+    animation: radarPulse 3s ease-in-out infinite;
+
+    pointer-events: none;
+}
+
+@keyframes radarPulse {
+
+    0%, 100% {
+        transform: translateY(-50%) scale(0.95);
+        opacity: 0.45;
+    }
+
+    50% {
+        transform: translateY(-50%) scale(1.08);
+        opacity: 1;
+    }
+}
+
 
 /* =========================================================
-   RIGHT
+   RIGHT PANEL
 ========================================================= */
 
 .right {
@@ -424,7 +446,6 @@ body {
 
 .screen {
     width: 100%;
-
     max-width: 350px;
 
     display: none;
@@ -497,7 +518,6 @@ body {
 
 .welcome h2 {
     font-size: 29px;
-
     margin-bottom: 8px;
 }
 
@@ -580,7 +600,6 @@ body {
 
 .option-text strong {
     display: block;
-
     font-size: 14px;
 }
 
@@ -601,7 +620,6 @@ body {
 
 .screen h2 {
     font-size: 28px;
-
     margin-bottom: 7px;
 }
 
@@ -671,6 +689,36 @@ body {
 
 
 /* =========================================================
+   PASSWORD REQUIREMENTS
+========================================================= */
+
+.password-rules {
+    margin-top: -7px;
+    margin-bottom: 18px;
+
+    padding: 12px;
+
+    border-radius: 9px;
+
+    background: rgba(0,200,255,.035);
+
+    border: 1px solid rgba(0,200,255,.08);
+
+    font-size: 10px;
+
+    line-height: 1.9;
+}
+
+.password-rule {
+    color: #71859a;
+}
+
+.password-rule.valid {
+    color: #59ffae;
+}
+
+
+/* =========================================================
    BUTTON
 ========================================================= */
 
@@ -706,6 +754,14 @@ body {
 
     box-shadow:
         0 10px 30px rgba(0,160,255,.25);
+}
+
+.primary-btn:disabled {
+    opacity: .6;
+
+    cursor: not-allowed;
+
+    transform: none;
 }
 
 
@@ -899,7 +955,6 @@ body {
 
     .card {
         width: 100%;
-
         max-width: 480px;
 
         grid-template-columns: 1fr;
@@ -964,17 +1019,13 @@ body {
 </div>
 
 
-<!-- =========================================================
-     MAIN
-========================================================= -->
-
 <div class="container">
 
 <div class="card">
 
 
 <!-- =========================================================
-     LEFT
+     LEFT PANEL
 ========================================================= -->
 
 <div class="left">
@@ -991,15 +1042,10 @@ body {
 
     </div>
 
-
     <h1>
-
         Smarter Response.<br>
-
         <span>Safer Campus.</span>
-
     </h1>
-
 
     <p class="description">
 
@@ -1008,7 +1054,6 @@ body {
         resources and support faster campus-wide response.
 
     </p>
-
 
     <div class="status">
 
@@ -1022,7 +1067,7 @@ body {
 
 
 <!-- =========================================================
-     RIGHT
+     RIGHT PANEL
 ========================================================= -->
 
 <div class="right">
@@ -1040,9 +1085,7 @@ body {
             🛡️
         </div>
 
-        <h2>
-            Welcome
-        </h2>
+        <h2>Welcome</h2>
 
         <p>
             Choose how you want to continue
@@ -1052,8 +1095,7 @@ body {
 
         <button
             class="auth-option"
-            onclick="showScreen('signinScreen')"
-        >
+            onclick="showScreen('signinScreen')">
 
             <div class="option-icon">
                 🔐
@@ -1061,9 +1103,7 @@ body {
 
             <div class="option-text">
 
-                <strong>
-                    Sign In
-                </strong>
+                <strong>Sign In</strong>
 
                 <small>
                     Already have an account
@@ -1076,8 +1116,7 @@ body {
 
         <button
             class="auth-option"
-            onclick="showScreen('signupScreen')"
-        >
+            onclick="showScreen('signupScreen')">
 
             <div class="option-icon">
                 📝
@@ -1085,9 +1124,7 @@ body {
 
             <div class="option-text">
 
-                <strong>
-                    Sign Up
-                </strong>
+                <strong>Sign Up</strong>
 
                 <small>
                     Create a new account
@@ -1108,9 +1145,7 @@ body {
 
 <div class="screen" id="signinScreen">
 
-    <h2>
-        Welcome Back
-    </h2>
+    <h2>Welcome Back</h2>
 
     <p class="subtitle">
 
@@ -1122,61 +1157,52 @@ body {
 
     <div
         class="message error"
-        id="signinError"
-    ></div>
+        id="signinError">
+    </div>
 
 
     <div
         class="message success"
-        id="signinSuccess"
-    ></div>
+        id="signinSuccess">
+    </div>
 
 
     <form id="signinForm">
 
         <div class="input-group">
 
-            <label>
-                Email Address
-            </label>
+            <label>Email Address</label>
 
             <input
                 class="input"
                 type="email"
                 id="signinEmail"
                 placeholder="Enter your email"
-                required
-            >
+                required>
 
         </div>
 
 
         <div class="input-group">
 
-            <label>
-                Password
-            </label>
+            <label>Password</label>
 
             <input
                 class="input"
                 type="password"
                 id="signinPassword"
                 placeholder="Enter your password"
-                required
-            >
+                required>
 
         </div>
 
 
         <div
             class="links"
-            style="text-align:right;margin:0 0 18px"
-        >
+            style="text-align:right;margin:0 0 18px">
 
             <a onclick="showScreen('forgotScreen')">
-
                 Forgot Password?
-
             </a>
 
         </div>
@@ -1185,7 +1211,7 @@ body {
         <button
             class="primary-btn"
             type="submit"
-        >
+            id="signinButton">
 
             Sign In
 
@@ -1199,9 +1225,7 @@ body {
         Don't have an account?
 
         <a onclick="showScreen('signupScreen')">
-
             Create Account
-
         </a>
 
     </div>
@@ -1210,9 +1234,7 @@ body {
     <div class="links">
 
         <a onclick="showScreen('welcomeScreen')">
-
             ← Back
-
         </a>
 
     </div>
@@ -1226,9 +1248,7 @@ body {
 
 <div class="screen" id="signupScreen">
 
-    <h2>
-        Create Account
-    </h2>
+    <h2>Create Account</h2>
 
     <p class="subtitle">
 
@@ -1240,42 +1260,36 @@ body {
 
     <div
         class="message error"
-        id="signupError"
-    ></div>
+        id="signupError">
+    </div>
 
 
     <form id="signupForm">
 
         <div class="input-group">
 
-            <label>
-                Full Name
-            </label>
+            <label>Full Name</label>
 
             <input
                 class="input"
                 type="text"
                 id="signupName"
                 placeholder="Enter your full name"
-                required
-            >
+                required>
 
         </div>
 
 
         <div class="input-group">
 
-            <label>
-                Email Address
-            </label>
+            <label>Email Address</label>
 
             <input
                 class="input"
                 type="email"
                 id="signupEmail"
                 placeholder="Enter your email"
-                required
-            >
+                required>
 
         </div>
 
@@ -1283,7 +1297,7 @@ body {
         <button
             class="primary-btn"
             type="submit"
-        >
+            id="signupButton">
 
             Send Verification OTP
 
@@ -1297,9 +1311,7 @@ body {
         Already have an account?
 
         <a onclick="showScreen('signinScreen')">
-
             Sign In
-
         </a>
 
     </div>
@@ -1313,9 +1325,7 @@ body {
 
 <div class="screen" id="signupOtpScreen">
 
-    <h2>
-        Verify Your Email
-    </h2>
+    <h2>Verify Your Email</h2>
 
     <p class="subtitle">
 
@@ -1333,13 +1343,20 @@ body {
             your email
         </strong>
 
+        <br><br>
+
+        <span>
+            The OTP is sent separately.
+            Your password is never included in this email.
+        </span>
+
     </div>
 
 
     <div
         class="message error"
-        id="signupOtpError"
-    ></div>
+        id="signupOtpError">
+    </div>
 
 
     <form id="signupOtpForm">
@@ -1359,7 +1376,7 @@ body {
         <button
             class="primary-btn"
             type="submit"
-        >
+            id="signupVerifyButton">
 
             Verify OTP
 
@@ -1371,9 +1388,7 @@ body {
     <div class="links">
 
         <a onclick="showScreen('signupScreen')">
-
             ← Change Email
-
         </a>
 
     </div>
@@ -1387,56 +1402,96 @@ body {
 
 <div class="screen" id="createPasswordScreen">
 
-    <h2>
-        Create Password
-    </h2>
+    <h2>Create Password</h2>
 
     <p class="subtitle">
 
-        Your email has been verified.
-        Create a secure password.
+        Email verified successfully.
+        Now create your own password.
 
     </p>
 
 
     <div
         class="message error"
-        id="createPasswordError"
-    ></div>
+        id="createPasswordError">
+    </div>
 
 
     <form id="createPasswordForm">
 
+
         <div class="input-group">
 
-            <label>
-                New Password
-            </label>
+            <label>New Password</label>
 
             <input
                 class="input"
                 type="password"
                 id="newPassword"
-                placeholder="Create password"
-                required
-            >
+                placeholder="Create your password"
+                required>
+
+        </div>
+
+
+        <!-- PASSWORD RULES -->
+
+        <div class="password-rules">
+
+            <div
+                id="ruleLength"
+                class="password-rule">
+
+                ○ At least 8 characters
+
+            </div>
+
+            <div
+                id="ruleUpper"
+                class="password-rule">
+
+                ○ One uppercase letter
+
+            </div>
+
+            <div
+                id="ruleLower"
+                class="password-rule">
+
+                ○ One lowercase letter
+
+            </div>
+
+            <div
+                id="ruleNumber"
+                class="password-rule">
+
+                ○ One number
+
+            </div>
+
+            <div
+                id="ruleSpecial"
+                class="password-rule">
+
+                ○ One special character
+
+            </div>
 
         </div>
 
 
         <div class="input-group">
 
-            <label>
-                Confirm Password
-            </label>
+            <label>Confirm Password</label>
 
             <input
                 class="input"
                 type="password"
                 id="confirmPassword"
-                placeholder="Confirm password"
-                required
-            >
+                placeholder="Confirm your password"
+                required>
 
         </div>
 
@@ -1444,7 +1499,7 @@ body {
         <button
             class="primary-btn"
             type="submit"
-        >
+            id="createPasswordButton">
 
             Create Account
 
@@ -1461,9 +1516,7 @@ body {
 
 <div class="screen" id="forgotScreen">
 
-    <h2>
-        Forgot Password?
-    </h2>
+    <h2>Forgot Password?</h2>
 
     <p class="subtitle">
 
@@ -1475,25 +1528,22 @@ body {
 
     <div
         class="message error"
-        id="forgotError"
-    ></div>
+        id="forgotError">
+    </div>
 
 
     <form id="forgotForm">
 
         <div class="input-group">
 
-            <label>
-                Email Address
-            </label>
+            <label>Email Address</label>
 
             <input
                 class="input"
                 type="email"
                 id="forgotEmail"
                 placeholder="Enter your email"
-                required
-            >
+                required>
 
         </div>
 
@@ -1501,7 +1551,7 @@ body {
         <button
             class="primary-btn"
             type="submit"
-        >
+            id="forgotButton">
 
             Send Verification OTP
 
@@ -1513,9 +1563,7 @@ body {
     <div class="links">
 
         <a onclick="showScreen('signinScreen')">
-
             ← Back to Sign In
-
         </a>
 
     </div>
@@ -1529,9 +1577,7 @@ body {
 
 <div class="screen" id="resetOtpScreen">
 
-    <h2>
-        Verify OTP
-    </h2>
+    <h2>Verify OTP</h2>
 
     <p class="subtitle">
 
@@ -1554,8 +1600,8 @@ body {
 
     <div
         class="message error"
-        id="resetOtpError"
-    ></div>
+        id="resetOtpError">
+    </div>
 
 
     <form id="resetOtpForm">
@@ -1575,7 +1621,7 @@ body {
         <button
             class="primary-btn"
             type="submit"
-        >
+            id="resetVerifyButton">
 
             Verify OTP
 
@@ -1587,9 +1633,7 @@ body {
     <div class="links">
 
         <a onclick="showScreen('forgotScreen')">
-
             ← Change Email
-
         </a>
 
     </div>
@@ -1603,9 +1647,7 @@ body {
 
 <div class="screen" id="resetPasswordScreen">
 
-    <h2>
-        Reset Password
-    </h2>
+    <h2>Reset Password</h2>
 
     <p class="subtitle">
 
@@ -1616,42 +1658,36 @@ body {
 
     <div
         class="message error"
-        id="resetPasswordError"
-    ></div>
+        id="resetPasswordError">
+    </div>
 
 
     <form id="resetPasswordForm">
 
         <div class="input-group">
 
-            <label>
-                New Password
-            </label>
+            <label>New Password</label>
 
             <input
                 class="input"
                 type="password"
                 id="resetPassword"
                 placeholder="Enter new password"
-                required
-            >
+                required>
 
         </div>
 
 
         <div class="input-group">
 
-            <label>
-                Confirm Password
-            </label>
+            <label>Confirm Password</label>
 
             <input
                 class="input"
                 type="password"
                 id="resetConfirmPassword"
                 placeholder="Confirm new password"
-                required
-            >
+                required>
 
         </div>
 
@@ -1659,7 +1695,7 @@ body {
         <button
             class="primary-btn"
             type="submit"
-        >
+            id="resetPasswordButton">
 
             Reset Password
 
@@ -1680,22 +1716,20 @@ body {
         ✓
     </div>
 
-    <h2>
-        Success!
-    </h2>
+    <h2>Account Created!</h2>
 
     <p
         class="subtitle"
-        id="successText"
-    >
-        Your account is ready.
+        id="successText">
+
+        Your account has been created successfully.
+
     </p>
 
 
     <button
         class="primary-btn"
-        onclick="goToSignIn()"
-    >
+        onclick="goToSignIn()">
 
         Continue to Sign In
 
@@ -1714,14 +1748,20 @@ body {
 <script>
 
 /* =========================================================
-   GLOBAL VARIABLES
+   BACKEND
+========================================================= */
+
+const API_BASE = "http://127.0.0.1:8000";
+
+
+/* =========================================================
+   FLOW VARIABLES
 ========================================================= */
 
 let signupEmail = "";
-let signupOTP = "";
+let signupName = "";
 
 let resetEmail = "";
-let resetOTP = "";
 
 
 /* =========================================================
@@ -1739,13 +1779,16 @@ function showScreen(id) {
         });
 
 
-    document
-        .getElementById(id)
-        .classList.add("active");
+    const screen =
+        document.getElementById(id);
 
+    if (screen) {
+
+        screen.classList.add("active");
+
+    }
 
     clearMessages();
-
 }
 
 
@@ -1777,6 +1820,8 @@ function showMessage(id, text) {
     const message =
         document.getElementById(id);
 
+    if (!message) return;
+
     message.textContent = text;
 
     message.classList.add("show");
@@ -1785,61 +1830,69 @@ function showMessage(id, text) {
 
 
 /* =========================================================
-   GENERATE OTP
+   API REQUEST
 ========================================================= */
 
-function generateOTP() {
+async function apiRequest(endpoint, data) {
 
-    return Math
-        .floor(
-            100000 +
-            Math.random() * 900000
-        )
-        .toString();
+    let response;
 
-}
+    try {
 
+        response = await fetch(
+            API_BASE + endpoint,
+            {
+                method: "POST",
 
-/* =========================================================
-   GET SAVED USERS
-========================================================= */
+                headers: {
+                    "Content-Type":
+                        "application/json"
+                },
 
-function getUsers() {
+                body:
+                    JSON.stringify(data)
+            }
+        );
 
-    return JSON.parse(
-        localStorage.getItem("campusUsers") || "[]"
-    );
+    }
 
-}
+    catch (error) {
 
+        throw new Error(
+            "Unable to connect to the backend server."
+        );
 
-/* =========================================================
-   SAVE USERS
-========================================================= */
-
-function saveUsers(users) {
-
-    localStorage.setItem(
-        "campusUsers",
-        JSON.stringify(users)
-    );
-
-}
+    }
 
 
-/* =========================================================
-   FIND USER
-========================================================= */
+    let result = {};
 
-function findUser(email) {
+    try {
 
-    const users = getUsers();
+        result =
+            await response.json();
 
-    return users.find(
-        user =>
-            user.email.toLowerCase() ===
-            email.toLowerCase()
-    );
+    }
+
+    catch {
+
+        result = {};
+
+    }
+
+
+    if (!response.ok) {
+
+        throw new Error(
+            result.detail ||
+            result.message ||
+            "Something went wrong."
+        );
+
+    }
+
+
+    return result;
 
 }
 
@@ -1852,12 +1905,12 @@ document
     .getElementById("signupForm")
     .addEventListener(
         "submit",
-        function(event) {
+        async function(event) {
 
             event.preventDefault();
 
 
-            const name =
+            signupName =
                 document
                     .getElementById("signupName")
                     .value
@@ -1872,13 +1925,11 @@ document
                     .toLowerCase();
 
 
-            /* Check whether account already exists */
-
-            if (findUser(signupEmail)) {
+            if (!signupName) {
 
                 showMessage(
                     "signupError",
-                    "An account already exists with this email. Please sign in instead."
+                    "Please enter your full name."
                 );
 
                 return;
@@ -1886,39 +1937,83 @@ document
             }
 
 
-            /* Generate OTP internally */
+            if (!signupEmail) {
 
-            signupOTP = generateOTP();
+                showMessage(
+                    "signupError",
+                    "Please enter your email."
+                );
 
+                return;
 
-            /*
-                IMPORTANT:
-
-                OTP is NOT displayed.
-
-                Frontend prototype only.
-
-                Later:
-
-                Backend generates OTP
-                ↓
-                Email service sends OTP
-            */
+            }
 
 
-            document
-                .getElementById(
-                    "signupEmailDisplay"
-                )
-                .textContent = signupEmail;
+            const button =
+                document.getElementById(
+                    "signupButton"
+                );
 
 
-            clearOTP("signupOtpScreen");
+            button.disabled = true;
+
+            button.textContent =
+                "Sending OTP...";
 
 
-            showScreen(
-                "signupOtpScreen"
-            );
+            try {
+
+                /*
+                   Backend generates the OTP.
+
+                   Frontend NEVER generates
+                   or decides the OTP.
+                */
+
+                await apiRequest(
+                    "/send-otp",
+                    {
+                        email: signupEmail
+                    }
+                );
+
+
+                document
+                    .getElementById(
+                        "signupEmailDisplay"
+                    )
+                    .textContent =
+                    signupEmail;
+
+
+                clearOTP(
+                    "signupOtpScreen"
+                );
+
+
+                showScreen(
+                    "signupOtpScreen"
+                );
+
+            }
+
+            catch (error) {
+
+                showMessage(
+                    "signupError",
+                    error.message
+                );
+
+            }
+
+            finally {
+
+                button.disabled = false;
+
+                button.textContent =
+                    "Send Verification OTP";
+
+            }
 
         }
     );
@@ -1932,13 +2027,15 @@ document
     .getElementById("signupOtpForm")
     .addEventListener(
         "submit",
-        function(event) {
+        async function(event) {
 
             event.preventDefault();
 
 
             const otp =
-                getOTP("signupOtpScreen");
+                getOTP(
+                    "signupOtpScreen"
+                );
 
 
             if (otp.length !== 6) {
@@ -1953,69 +2050,281 @@ document
             }
 
 
-            if (otp !== signupOTP) {
-
-                showMessage(
-                    "signupOtpError",
-                    "Invalid OTP. Please check your email and try again."
+            const button =
+                document.getElementById(
+                    "signupVerifyButton"
                 );
 
-                return;
+
+            button.disabled = true;
+
+            button.textContent =
+                "Verifying...";
+
+
+            try {
+
+                await apiRequest(
+                    "/verify-otp",
+                    {
+                        email: signupEmail,
+                        code: otp
+                    }
+                );
+
+
+                /*
+                   OTP verified.
+
+                   NOW the user is allowed
+                   to create their password.
+                */
+
+                document
+                    .getElementById(
+                        "newPassword"
+                    )
+                    .value = "";
+
+
+                document
+                    .getElementById(
+                        "confirmPassword"
+                    )
+                    .value = "";
+
+
+                resetPasswordRules();
+
+
+                showScreen(
+                    "createPasswordScreen"
+                );
 
             }
 
+            catch (error) {
 
-            showScreen(
-                "createPasswordScreen"
-            );
+                showMessage(
+                    "signupOtpError",
+                    error.message ||
+                    "Invalid OTP."
+                );
+
+            }
+
+            finally {
+
+                button.disabled = false;
+
+                button.textContent =
+                    "Verify OTP";
+
+            }
 
         }
     );
 
 
 /* =========================================================
-   CREATE ACCOUNT
+   PASSWORD VALIDATION
+========================================================= */
+
+function validatePassword(password) {
+
+    return {
+
+        length:
+            password.length >= 8,
+
+        upper:
+            /[A-Z]/.test(password),
+
+        lower:
+            /[a-z]/.test(password),
+
+        number:
+            /[0-9]/.test(password),
+
+        special:
+            /[!@#$%^&*(),.?":{}|<>]/.test(password)
+
+    };
+
+}
+
+
+/* =========================================================
+   PASSWORD RULE DISPLAY
+========================================================= */
+
+function updatePasswordRules() {
+
+    const password =
+        document
+            .getElementById("newPassword")
+            .value;
+
+
+    const rules =
+        validatePassword(password);
+
+
+    updateRule(
+        "ruleLength",
+        rules.length,
+        "At least 8 characters"
+    );
+
+
+    updateRule(
+        "ruleUpper",
+        rules.upper,
+        "One uppercase letter"
+    );
+
+
+    updateRule(
+        "ruleLower",
+        rules.lower,
+        "One lowercase letter"
+    );
+
+
+    updateRule(
+        "ruleNumber",
+        rules.number,
+        "One number"
+    );
+
+
+    updateRule(
+        "ruleSpecial",
+        rules.special,
+        "One special character"
+    );
+
+}
+
+
+function updateRule(id, valid, text) {
+
+    const element =
+        document.getElementById(id);
+
+
+    if (valid) {
+
+        element.classList.add("valid");
+
+        element.textContent =
+            "✓ " + text;
+
+    }
+
+    else {
+
+        element.classList.remove("valid");
+
+        element.textContent =
+            "○ " + text;
+
+    }
+
+}
+
+
+function resetPasswordRules() {
+
+    updateRule(
+        "ruleLength",
+        false,
+        "At least 8 characters"
+    );
+
+    updateRule(
+        "ruleUpper",
+        false,
+        "One uppercase letter"
+    );
+
+    updateRule(
+        "ruleLower",
+        false,
+        "One lowercase letter"
+    );
+
+    updateRule(
+        "ruleNumber",
+        false,
+        "One number"
+    );
+
+    updateRule(
+        "ruleSpecial",
+        false,
+        "One special character"
+    );
+
+}
+
+
+document
+    .getElementById("newPassword")
+    .addEventListener(
+        "input",
+        updatePasswordRules
+    );
+
+
+/* =========================================================
+   CREATE PASSWORD
 ========================================================= */
 
 document
     .getElementById("createPasswordForm")
     .addEventListener(
         "submit",
-        function(event) {
+        async function(event) {
 
             event.preventDefault();
 
 
-            const name =
-                document
-                    .getElementById("signupName")
-                    .value
-                    .trim();
-
-
             const password =
                 document
-                    .getElementById("newPassword")
+                    .getElementById(
+                        "newPassword"
+                    )
                     .value;
 
 
             const confirmPassword =
                 document
-                    .getElementById("confirmPassword")
+                    .getElementById(
+                        "confirmPassword"
+                    )
                     .value;
 
 
-            const error =
-                document.getElementById(
-                    "createPasswordError"
-                );
+            const rules =
+                validatePassword(password);
 
 
-            if (password.length < 6) {
+            /*
+               Check every password requirement.
+            */
+
+            if (
+                !rules.length ||
+                !rules.upper ||
+                !rules.lower ||
+                !rules.number ||
+                !rules.special
+            ) {
 
                 showMessage(
                     "createPasswordError",
-                    "Password must contain at least 6 characters."
+                    "Please meet all password requirements."
                 );
 
                 return;
@@ -2023,7 +2332,14 @@ document
             }
 
 
-            if (password !== confirmPassword) {
+            /*
+               Confirm password.
+            */
+
+            if (
+                password !==
+                confirmPassword
+            ) {
 
                 showMessage(
                     "createPasswordError",
@@ -2035,34 +2351,91 @@ document
             }
 
 
-            /* Save account locally */
-
-            const users = getUsers();
-
-
-            users.push({
-
-                name: name,
-
-                email: signupEmail,
-
-                password: password
-
-            });
+            const button =
+                document.getElementById(
+                    "createPasswordButton"
+                );
 
 
-            saveUsers(users);
+            button.disabled = true;
+
+            button.textContent =
+                "Creating Account...";
 
 
-            document
-                .getElementById("successText")
-                .textContent =
-                "Your account has been created successfully. You can now sign in.";
+            try {
+
+                /*
+                   IMPORTANT:
+
+                   The password is sent ONLY to
+                   the backend through HTTPS in
+                   a real deployment.
+
+                   It is NOT sent through email.
+                */
+
+                const result =
+                    await apiRequest(
+                        "/api/signup/create-password",
+                        {
+                            name: signupName,
+                            email: signupEmail,
+                            password: password
+                        }
+                    );
 
 
-            showScreen(
-                "successScreen"
-            );
+                document
+                    .getElementById(
+                        "successText"
+                    )
+                    .textContent =
+                    result.message ||
+                    "Your account has been created successfully. You can now sign in.";
+
+
+                /*
+                   Clear password fields.
+                */
+
+                document
+                    .getElementById(
+                        "newPassword"
+                    )
+                    .value = "";
+
+
+                document
+                    .getElementById(
+                        "confirmPassword"
+                    )
+                    .value = "";
+
+
+                showScreen(
+                    "successScreen"
+                );
+
+            }
+
+            catch (error) {
+
+                showMessage(
+                    "createPasswordError",
+                    error.message
+                );
+
+            }
+
+            finally {
+
+                button.disabled = false;
+
+                button.textContent =
+                    "Create Account";
+
+            }
 
         }
     );
@@ -2076,14 +2449,16 @@ document
     .getElementById("signinForm")
     .addEventListener(
         "submit",
-        function(event) {
+        async function(event) {
 
             event.preventDefault();
 
 
             const email =
                 document
-                    .getElementById("signinEmail")
+                    .getElementById(
+                        "signinEmail"
+                    )
                     .value
                     .trim()
                     .toLowerCase();
@@ -2091,64 +2466,70 @@ document
 
             const password =
                 document
-                    .getElementById("signinPassword")
+                    .getElementById(
+                        "signinPassword"
+                    )
                     .value;
 
 
-            /* Find account */
-
-            const user =
-                findUser(email);
-
-
-            /* NEW USER */
-
-            if (!user) {
-
-                showMessage(
-                    "signinError",
-                    "Account not found. Please sign up first to create an account."
+            const button =
+                document.getElementById(
+                    "signinButton"
                 );
 
-                return;
+
+            button.disabled = true;
+
+            button.textContent =
+                "Signing In...";
+
+
+            try {
+
+                const result =
+                    await apiRequest(
+                        "/api/login",
+                        {
+                            email: email,
+                            password: password
+                        }
+                    );
+
+
+                showMessage(
+                    "signinSuccess",
+                    result.message ||
+                    "Login successful!"
+                );
+                window.location.href = "/dashboard";
+
+
+                
+                   Later:
+
+                   window.location.href =
+                       "dashboard";
+            
 
             }
 
-
-            /* WRONG PASSWORD */
-
-            if (user.password !== password) {
+            catch (error) {
 
                 showMessage(
                     "signinError",
-                    "Incorrect password. Please try again or use Forgot Password."
+                    error.message
                 );
-
-                return;
 
             }
 
+            finally {
 
-            /* EXISTING USER + CORRECT PASSWORD */
+                button.disabled = false;
 
-            showMessage(
-                "signinSuccess",
-                "Login successful! Welcome back, " +
-                user.name + "."
-            );
+                button.textContent =
+                    "Sign In";
 
-
-            /*
-                FINAL BACKEND VERSION:
-
-                Backend will authenticate user
-                and create a secure session/token.
-
-                Then:
-
-                window.location.href =
-                    "/dashboard";
-            */
+            }
 
         }
     );
@@ -2162,66 +2543,79 @@ document
     .getElementById("forgotForm")
     .addEventListener(
         "submit",
-        function(event) {
+        async function(event) {
 
             event.preventDefault();
 
 
             resetEmail =
                 document
-                    .getElementById("forgotEmail")
+                    .getElementById(
+                        "forgotEmail"
+                    )
                     .value
                     .trim()
                     .toLowerCase();
 
 
-            /* Check account */
-
-            const user =
-                findUser(resetEmail);
-
-
-            if (!user) {
-
-                showMessage(
-                    "forgotError",
-                    "No account exists with this email. Please check your email or sign up."
+            const button =
+                document.getElementById(
+                    "forgotButton"
                 );
 
-                return;
+
+            button.disabled = true;
+
+            button.textContent =
+                "Sending OTP...";
+
+
+            try {
+
+                await apiRequest(
+                    "/api/password/forgot",
+                    {
+                        email: resetEmail
+                    }
+                );
+
+
+                document
+                    .getElementById(
+                        "resetEmailDisplay"
+                    )
+                    .textContent =
+                    resetEmail;
+
+
+                clearOTP(
+                    "resetOtpScreen"
+                );
+
+
+                showScreen(
+                    "resetOtpScreen"
+                );
 
             }
 
+            catch (error) {
 
-            /* Generate OTP */
+                showMessage(
+                    "forgotError",
+                    error.message
+                );
 
-            resetOTP = generateOTP();
+            }
 
+            finally {
 
-            /*
-                OTP is NOT displayed.
+                button.disabled = false;
 
-                Final backend:
+                button.textContent =
+                    "Send Verification OTP";
 
-                Backend → Email OTP
-            */
-
-
-            document
-                .getElementById(
-                    "resetEmailDisplay"
-                )
-                .textContent = resetEmail;
-
-
-            clearOTP(
-                "resetOtpScreen"
-            );
-
-
-            showScreen(
-                "resetOtpScreen"
-            );
+            }
 
         }
     );
@@ -2235,13 +2629,15 @@ document
     .getElementById("resetOtpForm")
     .addEventListener(
         "submit",
-        function(event) {
+        async function(event) {
 
             event.preventDefault();
 
 
             const otp =
-                getOTP("resetOtpScreen");
+                getOTP(
+                    "resetOtpScreen"
+                );
 
 
             if (otp.length !== 6) {
@@ -2256,21 +2652,52 @@ document
             }
 
 
-            if (otp !== resetOTP) {
-
-                showMessage(
-                    "resetOtpError",
-                    "Invalid OTP. Please try again."
+            const button =
+                document.getElementById(
+                    "resetVerifyButton"
                 );
 
-                return;
+
+            button.disabled = true;
+
+            button.textContent =
+                "Verifying...";
+
+
+            try {
+
+                await apiRequest(
+                    "/api/password/verify-otp",
+                    {
+                        email: resetEmail,
+                        otp: otp
+                    }
+                );
+
+
+                showScreen(
+                    "resetPasswordScreen"
+                );
 
             }
 
+            catch (error) {
 
-            showScreen(
-                "resetPasswordScreen"
-            );
+                showMessage(
+                    "resetOtpError",
+                    error.message
+                );
+
+            }
+
+            finally {
+
+                button.disabled = false;
+
+                button.textContent =
+                    "Verify OTP";
+
+            }
 
         }
     );
@@ -2284,14 +2711,16 @@ document
     .getElementById("resetPasswordForm")
     .addEventListener(
         "submit",
-        function(event) {
+        async function(event) {
 
             event.preventDefault();
 
 
             const password =
                 document
-                    .getElementById("resetPassword")
+                    .getElementById(
+                        "resetPassword"
+                    )
                     .value;
 
 
@@ -2303,11 +2732,11 @@ document
                     .value;
 
 
-            if (password.length < 6) {
+            if (password.length < 8) {
 
                 showMessage(
                     "resetPasswordError",
-                    "Password must contain at least 6 characters."
+                    "Password must contain at least 8 characters."
                 );
 
                 return;
@@ -2315,7 +2744,10 @@ document
             }
 
 
-            if (password !== confirmPassword) {
+            if (
+                password !==
+                confirmPassword
+            ) {
 
                 showMessage(
                     "resetPasswordError",
@@ -2327,69 +2759,82 @@ document
             }
 
 
-            /* Find user */
-
-            const users =
-                getUsers();
-
-
-            const index =
-                users.findIndex(
-                    user =>
-                        user.email ===
-                        resetEmail
+            const button =
+                document.getElementById(
+                    "resetPasswordButton"
                 );
 
 
-            if (index === -1) {
+            button.disabled = true;
 
-                showMessage(
-                    "resetPasswordError",
-                    "Account not found."
+            button.textContent =
+                "Resetting...";
+
+
+            try {
+
+                await apiRequest(
+                    "/api/password/reset",
+                    {
+                        email: resetEmail,
+                        password: password
+                    }
                 );
 
-                return;
+
+                document
+                    .getElementById(
+                        "successText"
+                    )
+                    .textContent =
+                    "Your password has been reset successfully. You can now sign in.";
+
+
+                showScreen(
+                    "successScreen"
+                );
 
             }
 
+            catch (error) {
 
-            /* Update password */
+                showMessage(
+                    "resetPasswordError",
+                    error.message
+                );
 
-            users[index].password =
-                password;
+            }
 
+            finally {
 
-            saveUsers(users);
+                button.disabled = false;
 
+                button.textContent =
+                    "Reset Password";
 
-            document
-                .getElementById(
-                    "successText"
-                )
-                .textContent =
-                "Your password has been reset successfully. You can now sign in.";
-
-
-            showScreen(
-                "successScreen"
-            );
+            }
 
         }
     );
 
 
 /* =========================================================
-   CONTINUE TO SIGN IN
+   GO TO SIGN IN
 ========================================================= */
 
 function goToSignIn() {
 
     document
-        .getElementById("signinEmail")
-        .value = "";
+        .getElementById(
+            "signinEmail"
+        )
+        .value = signupEmail;
+
 
     document
-        .getElementById("signinPassword")
+        .getElementById(
+            "signinPassword"
+        )
         .value = "";
 
 
@@ -2426,7 +2871,8 @@ document
                         inputs[index + 1]
                     ) {
 
-                        inputs[index + 1].focus();
+                        inputs[index + 1]
+                            .focus();
 
                     }
 
@@ -2444,7 +2890,8 @@ document
                         inputs[index - 1]
                     ) {
 
-                        inputs[index - 1].focus();
+                        inputs[index - 1]
+                            .focus();
 
                     }
 
