@@ -201,46 +201,35 @@ async def login_page(request: Request):
 # EMAIL FUNCTION
 # =====================================================
 
-def send_email(
-    to_email: str,
-    subject: str,
-    body: str
-):
+def send_email(to_email: str, subject: str, body: str):
+    import urllib.request
+    import json
 
-    if not SMTP_USER or not SMTP_PASS:
+    resend_api_key = os.getenv("RESEND_API_KEY")
 
-        raise Exception(
-            "SMTP_USER or SMTP_PASS is not configured"
-        )
+    if not resend_api_key:
+        raise Exception("RESEND_API_KEY is not configured")
 
+    data = {
+        "from": "CampusShield AI <onboarding@resend.dev>",
+        "to": [to_email],
+        "subject": subject,
+        "text": body
+    }
 
-    msg = EmailMessage()
+    req = urllib.request.Request(
+        "https://api.resend.com/emails",
+        data=json.dumps(data).encode("utf-8"),
+        headers={
+            "Authorization": f"Bearer {resend_api_key}",
+            "Content-Type": "application/json"
+        },
+        method="POST"
+    )
 
-    msg["Subject"] = subject
-
-    msg["From"] = SMTP_USER
-
-    # IMPORTANT:
-    # The user's entered email is the recipient.
-
-    msg["To"] = to_email
-
-    msg.set_content(body)
-
-
-    with smtplib.SMTP_SSL(
-        "smtp.gmail.com",
-        465
-    ) as smtp:
-
-        smtp.login(
-            SMTP_USER,
-            SMTP_PASS
-        )
-
-        smtp.send_message(msg)
-
-
+    with urllib.request.urlopen(req, timeout=15) as response:
+        if response.status >= 300:
+            raise Exception("Resend email failed")
 # =====================================================
 # GENERATE OTP
 # =====================================================
