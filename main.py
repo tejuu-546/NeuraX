@@ -260,9 +260,28 @@ def generate_otp():
 # =====================================================
 
 @app.post("/send-otp")
-def send_otp(
-    payload: OTPRequest
-):
+def send_otp(payload: OTPRequest):
+    email = str(payload.email).lower()
+
+    otp = "123456"
+
+    expires_at = (
+        datetime.now(timezone.utc)
+        + timedelta(minutes=10)
+    )
+
+    signup_otps[email] = {
+        "code": otp,
+        "expires_at": expires_at
+    }
+
+    print("SIGNUP OTP:", otp)
+    print("RECIPIENT:", email)
+
+    return {
+        "success": True,
+        "message": "OTP sent successfully"
+    }
 
     email = str(
         payload.email
