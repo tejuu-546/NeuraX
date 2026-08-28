@@ -1294,14 +1294,14 @@ body {
         </div>
 
 
-       <button
-    class="primary-btn"
-    type="submit"
-    id="signupButton">
+        <button
+            class="primary-btn"
+            type="submit"
+            id="signupButton">
 
-    Continue
+            Continue
 
-</button>
+        </button>
 
     </form>
 
@@ -1406,8 +1406,7 @@ body {
 
     <p class="subtitle">
 
-        Email verified successfully.
-        Now create your own password.
+        Create your password to complete your account.
 
     </p>
 
@@ -1958,32 +1957,16 @@ document
             button.disabled = true;
 
             button.textContent =
-                "Sending OTP...";
+                "Continue...";
 
 
             try {
 
-                /*
-                   Backend generates the OTP.
-
-                   Frontend NEVER generates
-                   or decides the OTP.
-                */
-
-               // OTP removed — continue to password creation
-
+                // Signup OTP removed.
+                // Continue directly to password creation.
                 document
-                    .getElementById(
-                        "signupEmailDisplay"
-                    )
-                    .textContent =
-                    signupEmail;
-
-
-                clearOTP(
-                    "signupOtpScreen"
-                );
-
+                    .getElementById("signupEmailDisplay")
+                    .textContent = signupEmail;
 
                 showScreen("createPasswordScreen");
 
@@ -2003,7 +1986,7 @@ document
                 button.disabled = false;
 
                 button.textContent =
-                    "Send Verification OTP";
+                    "Continue";
 
             }
 
@@ -2019,23 +2002,105 @@ document
     .getElementById("signupOtpForm")
     .addEventListener(
         "submit",
-        function(event) {
+        async function(event) {
 
             event.preventDefault();
 
-            document
-                .getElementById("newPassword")
-                .value = "";
 
-            document
-                .getElementById("confirmPassword")
-                .value = "";
+            const otp =
+                getOTP(
+                    "signupOtpScreen"
+                );
 
-            resetPasswordRules();
 
-            showScreen("createPasswordScreen");
+            if (otp.length !== 6) {
+
+                showMessage(
+                    "signupOtpError",
+                    "Please enter the complete 6-digit OTP."
+                );
+
+                return;
+
+            }
+
+
+            const button =
+                document.getElementById(
+                    "signupVerifyButton"
+                );
+
+
+            button.disabled = true;
+
+            button.textContent =
+                "Verifying...";
+
+
+            try {
+
+                await apiRequest(
+                    "/verify-otp",
+                    {
+                        email: signupEmail,
+                        code: otp
+                    }
+                );
+
+
+                /*
+                   OTP verified.
+
+                   NOW the user is allowed
+                   to create their password.
+                */
+
+                document
+                    .getElementById(
+                        "newPassword"
+                    )
+                    .value = "";
+
+
+                document
+                    .getElementById(
+                        "confirmPassword"
+                    )
+                    .value = "";
+
+
+                resetPasswordRules();
+
+
+                showScreen(
+                    "createPasswordScreen"
+                );
+
+            }
+
+            catch (error) {
+
+                showMessage(
+                    "signupOtpError",
+                    error.message ||
+                    "Invalid OTP."
+                );
+
+            }
+
+            finally {
+
+                button.disabled = false;
+
+                button.textContent =
+                    "Verify OTP";
+
+            }
+
         }
     );
+
+
 /* =========================================================
    PASSWORD VALIDATION
 ========================================================= */
