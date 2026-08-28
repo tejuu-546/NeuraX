@@ -2027,105 +2027,23 @@ document
     .getElementById("signupOtpForm")
     .addEventListener(
         "submit",
-        async function(event) {
+        function(event) {
 
             event.preventDefault();
 
+            document
+                .getElementById("newPassword")
+                .value = "";
 
-            const otp =
-                getOTP(
-                    "signupOtpScreen"
-                );
+            document
+                .getElementById("confirmPassword")
+                .value = "";
 
+            resetPasswordRules();
 
-            if (otp.length !== 6) {
-
-                showMessage(
-                    "signupOtpError",
-                    "Please enter the complete 6-digit OTP."
-                );
-
-                return;
-
-            }
-
-
-            const button =
-                document.getElementById(
-                    "signupVerifyButton"
-                );
-
-
-            button.disabled = true;
-
-            button.textContent =
-                "Verifying...";
-
-
-            try {
-
-                await apiRequest(
-                    "/verify-otp",
-                    {
-                        email: signupEmail,
-                        code: otp
-                    }
-                );
-
-
-                /*
-                   OTP verified.
-
-                   NOW the user is allowed
-                   to create their password.
-                */
-
-                document
-                    .getElementById(
-                        "newPassword"
-                    )
-                    .value = "";
-
-
-                document
-                    .getElementById(
-                        "confirmPassword"
-                    )
-                    .value = "";
-
-
-                resetPasswordRules();
-
-
-                showScreen(
-                    "createPasswordScreen"
-                );
-
-            }
-
-            catch (error) {
-
-                showMessage(
-                    "signupOtpError",
-                    error.message ||
-                    "Invalid OTP."
-                );
-
-            }
-
-            finally {
-
-                button.disabled = false;
-
-                button.textContent =
-                    "Verify OTP";
-
-            }
-
+            showScreen("createPasswordScreen");
         }
     );
-
-
 /* =========================================================
    PASSWORD VALIDATION
 ========================================================= */
